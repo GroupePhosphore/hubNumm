@@ -1,0 +1,47 @@
+version: "3.3"
+
+services:
+  php:
+    build: .
+    container_name: hubNumm_php
+    volumes:
+      - user-data:/home/developer
+      - .docker/php/php.ini:/usr/local/etc/php/conf.d/app.ini
+      - .:/var/www/html
+      - ./vendor:/var/www/html/vendor
+    networks:
+      backend:
+        aliases:
+          - hubNumm
+    expose:
+      - 9000
+      - 9003
+
+  nginx:
+    image: nginx:latest
+    container_name: hubNumm_nginx
+    volumes:
+      - ./:/code
+      - .docker/nginx:/etc/nginx/conf.d
+    networks:
+      backend:
+        aliases:
+          - hubNumm.me
+      proxy:
+    environment:
+      - VIRTUAL_HOST=hubNumm.me
+    expose:
+      - 80
+      - 9003
+    depends_on:
+      - php
+
+volumes:
+  user-data:
+    external: true
+
+networks:
+  backend:
+    external: true
+  proxy: 
+    external: true
