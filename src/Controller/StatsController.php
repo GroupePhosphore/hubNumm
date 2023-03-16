@@ -21,7 +21,7 @@ use App\Stats\InvoiceBasedStatistics\CATotalTpe;
 #[Route('/api', name: 'api_')]
 class StatsController extends AbstractController
 {
-    #[Route('/stats', name: 'stats')]
+    #[Route('/stats/kerry', name: 'stats')]
     public function index(Request $request, SalesforceClient $salesforceClient): JsonResponse
     {
         $caTotal = new CATotalReseau($salesforceClient);
