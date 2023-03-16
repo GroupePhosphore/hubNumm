@@ -7,8 +7,8 @@ services:
     volumes:
       - user-data:/home/developer
       - .docker/php/php.ini:/usr/local/etc/php/conf.d/app.ini
-      - .:/var/www/html
-      - ./vendor:/var/www/html/vendor
+      - .:/app 
+      - ./vendor:/app/vendor
     networks:
       backend:
         aliases:
