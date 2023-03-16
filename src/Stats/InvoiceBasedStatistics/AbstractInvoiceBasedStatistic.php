@@ -57,10 +57,8 @@ abstract class AbstractInvoiceBasedStatistic extends AbstractStatistic
             '=',
             'CLI'
         );
-        if ($this->start) {
+        if ($this->hasPeriod) {
             $q->setDateCondition('numm__Piece__r.numm__BaselineDate__c', $this->start, '>=');
-        }
-        if ($this->end) {
             $q->setDateCondition('numm__Piece__r.numm__BaselineDate__c', $this->end, '<=');
         }
         if (count($this->accounts) > 0) {
@@ -85,11 +83,9 @@ abstract class AbstractInvoiceBasedStatistic extends AbstractStatistic
         if (isset($stats->nextRecordsUrl) && $stats->done !== true) {
             do {
                 $stats = $this->client->fetch->getEagerResult($stats->nextRecordsUrl);
-                $records = array_merge($this->rawData, $stats->records);
+                $this->rawData = array_merge($this->rawData, $stats->records);
             } while (isset($stats->nextRecordsUrl) && $stats->done !== true);
         }
-
-        return $records;
     }
 
     
@@ -107,7 +103,7 @@ abstract class AbstractInvoiceBasedStatistic extends AbstractStatistic
 
     public function getResult()
     {
-        $this->rawData = $this->fetchData();
+        $this->fetchData();
         $this->parse();
         return $this->parsedData;
     }
