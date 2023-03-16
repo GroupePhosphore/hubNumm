@@ -44,7 +44,7 @@ class StatsController extends AbstractController
             $parser::STAT_CA_CLIENT_RIVALIS,
             $parser::STAT_CA_CM_CIC,
         ]);
-        $stats = $salesforceClient->getInvoices(
+        $stats = $salesforceClient->fetch->getInvoices(
             $start,
             $end,
             null,
@@ -55,7 +55,7 @@ class StatsController extends AbstractController
 
         if (isset($stats->nextRecordsUrl) && $stats->done !== true) {
             do {
-                $stats = $salesforceClient->getEagerResult($stats->nextRecordsUrl);
+                $stats = $salesforceClient->fetch->getEagerResult($stats->nextRecordsUrl);
                 $records = array_merge($records, $stats->records);
             } while (isset($stats->nextRecordsUrl) && $stats->done !== true);
         }
@@ -64,7 +64,7 @@ class StatsController extends AbstractController
         $parserRedevance->setStatsToFetch([
             $parser::STAT_CA_REDEVANCE,
         ]);
-        $stats = $salesforceClient->getInvoices(
+        $stats = $salesforceClient->fetch->getInvoices(
             $startRedevance,
             $endRedevance,
             null,
@@ -75,7 +75,7 @@ class StatsController extends AbstractController
 
         if (isset($stats->nextRecordsUrl) && $stats->done !== true) {
             do {
-                $stats = $salesforceClient->getEagerResult($stats->nextRecordsUrl);
+                $stats = $salesforceClient->fetch->getEagerResult($stats->nextRecordsUrl);
                 $records = array_merge($records, $stats->records);
             } while (isset($stats->nextRecordsUrl) && $stats->done !== true);
         }
