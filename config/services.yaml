@@ -4,7 +4,14 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
-
+    app.salesforce.username: '%env(resolve:SALESFORCE_API_USERNAME)%'
+    app.salesforce.password: '%env(resolve:SALESFORCE_API_USERPASSWORD)%'
+    app.salesforce.grant_type: '%env(resolve:SALESFORCE_API_GRANTTYPE)%'
+    app.salesforce.client_id: '%env(resolve:SALESFORCE_API_CLIENT_ID)%'
+    app.salesforce.client_secret: '%env(resolve:SALESFORCE_API_CLIENT_SECRET)%'
+    app.salesforce.login_url: '%env(resolve:SALESFORCE_API_LOGIN_URL)%'
+    app.salesforce.api_version: '%env(resolve:SALESFORCE_API_VERSION)%'
+    app.salesforce.numm_token: '%env(resolve:SALESFORCE_NUMM_TOKEN)%'
 services:
     # default configuration for services in *this* file
     _defaults:
