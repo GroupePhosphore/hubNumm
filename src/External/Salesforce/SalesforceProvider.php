@@ -36,17 +36,9 @@ class SalesforceProvider
     {
         $q = new QueryUtils();
 
-        $q->addField('numm__Piece__r.numm__Role_du_Tiers__c');
-        $q->addField('numm__Piece__r.numm__Role_du_Tiers__r.Name');
-        $q->addField('numm__Piece__r.numm__Role_du_Tiers__r.numm__Code_Tiers_externe__c');
-        $q->addField('numm__Piece__r.numm__Role_du_Tiers__r.numm__IdctrlAccounting__r.Name');
         $q->addField('numm__Piece__r.numm__Role_du_Tiers__r.numm__ThirdParty__r.IdDataLake__c');
         $q->addField('numm__Piece__r.numm__Role_du_Tiers__r.numm__ThirdParty__r.ID_Datalake_Referent__c');
-        $q->addField('numm__Piece__r.Name');
-        $q->addField('numm__Piece__r.numm__AccountingDate__c');
-        $q->addField('numm__Piece__r.numm__BaselineDate__c');
         $q->addField('numm__IdAccountingCode__r.Name');
-        $q->addField('numm__IdAccountingCode__r.numm__Description__c');
         $q->addField('numm__Amount__c');
         $q->addField('numm__Tech_SensMontant__c');
         
