@@ -24,7 +24,7 @@ class CustomClient extends Client
         $options[RequestOptions::HEADERS] = [
             'Authorization' => 'Bearer ' . $this->authToken,
             'Accept' => 'application/json',
-            'Content-Type' => 'application/x-www-form-urlencoded'
+            'Content-Type' => 'application/json'
         ];
 
         if ($body) {

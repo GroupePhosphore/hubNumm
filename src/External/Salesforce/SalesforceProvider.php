@@ -3,6 +3,7 @@
 namespace App\External\Salesforce;
 
 use App\External\Salesforce\Utils\QueryUtils;
+use DateTime;
 use Exception;
 use GuzzleHttp\{Client, RequestOptions};
 use Psr\Log\LoggerInterface;
@@ -13,8 +14,8 @@ class SalesforceProvider
     public function __construct(
         private CustomClient $nummClient,
         private LoggerInterface $logger
-    )
-    {}
+    ) {
+    }
     /**
      * Make and execute the query to fetch all invoices from NUMM,
      * in a class 7 (Products) account or in a given list,
@@ -32,8 +33,7 @@ class SalesforceProvider
         ?\DateTime $end = null,
         ?array $conseillerIdArray = null,
         ?array $accountArray = null
-        ): Object
-    {
+    ): Object {
         $q = new QueryUtils();
 
         $q->addField('numm__Piece__r.numm__Role_du_Tiers__r.numm__ThirdParty__r.IdDataLake__c');
@@ -41,7 +41,7 @@ class SalesforceProvider
         $q->addField('numm__IdAccountingCode__r.Name');
         $q->addField('numm__Amount__c');
         $q->addField('numm__Tech_SensMontant__c');
-        
+
         $q->setTable('numm__VoucherTransaction__c');
 
         if ($conseillerIdArray && count($conseillerIdArray) > 1) {
@@ -54,7 +54,7 @@ class SalesforceProvider
                     'numm__Piece__r.numm__Role_du_Tiers__r.numm__ThirdParty__r.ID_Datalake_Referent__c',
                     $conseillerIdArray
                 )
-                );
+            );
         }
 
         $q->setOrXCondition(
@@ -83,7 +83,7 @@ class SalesforceProvider
         }
 
         $q->orderBy(["numm__Piece__r.numm__Role_du_Tiers__c", "numm__IdAccountingCode__c"]);
-    
+
 
         return $this->sql($q->getQuery());
     }
@@ -108,5 +108,25 @@ class SalesforceProvider
     public function getEagerResult(string $nextPageURL): Object
     {
         return $this->nummClient->makeRequest('GET', $nextPageURL);
+    }
+
+
+    public function updateInvoiceBaseline(
+        string $initialBaseLine,
+        string $finalBaseLine,
+        string $journalName,
+        string $entityName,
+        string $establishementName,
+        \DateTime $date
+        ): Object
+    {
+        return $this->nummClient->makeRequest('POST', '/services/apexrest/nummapi/v1/voucher/updateNumber', [
+            'initialNumber' => $initialBaseLine,
+            'finalNumber' => $finalBaseLine,
+            'initialDate' => $date->format('Y-m-d'),
+            'initialEntity' => $entityName,
+            'initialEstablishment' => $establishementName,
+            'initialJournal' => $journalName
+        ]);
     }
 }
