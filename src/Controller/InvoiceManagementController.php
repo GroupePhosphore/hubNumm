@@ -45,8 +45,7 @@ class InvoiceManagementController extends AbstractController
         $updatedRows = [];
         $errorRows = [];
        foreach($rows as $row) {
-            $s = '01/02/2023 00:00:00';
-            $date = date_create_from_format('d/m/Y H:i:s', $s);
+            $date = date_create_from_format('d/m/Y H:i:s.u P', $row[3]);
             try {
                 $updated = $salesforceClient->fetch->updateInvoiceBaseLine(
                     $row[1],
