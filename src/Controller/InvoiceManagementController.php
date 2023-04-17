@@ -45,7 +45,7 @@ class InvoiceManagementController extends AbstractController
         $updatedRows = [];
         $errorRows = [];
        foreach($rows as $row) {
-            $date = date_create_from_format('d/m/Y H:i:s.u P', $row[3]);
+            $date = new \DateTime($row[3]);
             try {
                 $updated = $salesforceClient->fetch->updateInvoiceBaseLine(
                     $row[1],
