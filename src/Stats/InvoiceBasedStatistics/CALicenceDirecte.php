@@ -7,5 +7,5 @@ use App\Stats\InvoiceBasedStatistics\AbstractInvoiceBasedStatistic;
 class CALicenceDirecte extends AbstractInvoiceBasedStatistic
 {
     protected string $slug = 'CA_LICENCE_DIRECTE';
-    protected array $accounts = [707100, 707101];
+    protected array $accounts = [706011];
 }
