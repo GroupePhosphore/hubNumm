@@ -34,6 +34,7 @@ class StatsController extends AbstractController
         $caComnat = new CAComnat($salesforceClient);
         $caCmCic = new CACMCIC($salesforceClient);
         $caClientRivalis = new CAClientRivalis($salesforceClient);
+		$caRivacentrale = new CARivacentrale($salesforceClient);
         
         $start = $end = null;
         if (!empty($request->query->get("start")) && !empty($request->query->get("end"))) {
@@ -52,6 +53,7 @@ class StatsController extends AbstractController
             $caComnat->setPeriod($start, $end);
             $caCmCic->setPeriod($start, $end);
             $caClientRivalis->setPeriod($start, $end);
+            $caRivacentrale->setPeriod($start, $end);
             // Les redevances doivent être prise en compte un mois plus tard
             // Elles sont facturées et prises en compte
             // un mois après la période d'activité
@@ -73,6 +75,7 @@ class StatsController extends AbstractController
         $formattedStats[$caComnat->getSlug()] = $caComnat->getResult();
         $formattedStats[$caCmCic->getSlug()] = $caCmCic->getResult();
         $formattedStats[$caClientRivalis->getSlug()] = $caClientRivalis->getResult();
+        $formattedStats[$caRivacentrale->getSlug()] = $caRivacentrale->getResult();
 
         return $this->json([
             'message' => 'Success',
