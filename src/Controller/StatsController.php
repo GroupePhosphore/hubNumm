@@ -17,6 +17,7 @@ use App\Stats\InvoiceBasedStatistics\CARenouvellement;
 use App\Stats\InvoiceBasedStatistics\CARivashop;
 use App\Stats\InvoiceBasedStatistics\CATotalReseau;
 use App\Stats\InvoiceBasedStatistics\CATotalTpe;
+use App\Stats\InvoiceBasedStatistics\CARivacentrale;
 
 #[Route('/api', name: 'api_')]
 class StatsController extends AbstractController
