@@ -65,6 +65,11 @@ class QueryUtils
         $this->conditions[] = '( ' . $condition1 . ' OR ' . $condition2 . ' )';
     }
 
+	public function setNullCondition(string $field): void
+	{
+		$this->conditions[] = $field . ' = null';
+	}
+
     public function setNotNullCondition(string $field): void
     {
         $this->conditions[] = $field . ' != null';
