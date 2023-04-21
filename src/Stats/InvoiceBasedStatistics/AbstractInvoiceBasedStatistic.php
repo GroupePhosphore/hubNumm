@@ -26,6 +26,7 @@ abstract class AbstractInvoiceBasedStatistic extends AbstractStatistic
     {
         $q = new QueryUtils();
 
+        $q->addField('numm__Tech_Entite__r.Name');
         $q->addField('numm__Piece__r.numm__Role_du_Tiers__r.numm__ThirdParty__r.IdDataLake__c');
         $q->addField('numm__Piece__r.numm__Role_du_Tiers__r.numm__ThirdParty__r.ID_Datalake_Referent__c');
         $q->addField('numm__IdAccountingCode__r.Name');
@@ -69,6 +70,8 @@ abstract class AbstractInvoiceBasedStatistic extends AbstractStatistic
         } else {
             $q->setCompareTextValueCondition('numm__IdAccountingCode__r.Name', 'LIKE', '7%');
         }
+
+		$q->setCompareTextValueCondition('numm__Tech_Entite__r.Name', '=', 'BM EST');
 
         $q->orderBy(["numm__Piece__r.numm__Role_du_Tiers__c", "numm__IdAccountingCode__c"]);
     
