@@ -7,7 +7,10 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\External\Salesforce\SalesforceClient;
-
+use App\Stats\AccountBasedStatistics\ExternalExpensesStatistic;
+use App\Stats\AccountBasedStatistics\OutsourcingStatistic;
+use App\Stats\AccountBasedStatistics\SalesStatistic;
+use App\Stats\AccountBasedStatistics\SocialExpensesStatistic;
 use App\Stats\InvoiceBasedStatistics\CAClientRivalis;
 use App\Stats\InvoiceBasedStatistics\CACMCIC;
 use App\Stats\InvoiceBasedStatistics\CAComnat;
@@ -48,12 +51,12 @@ class StatsController extends AbstractController
         $caComnat = new CAComnat($salesforceClient);
         $caCmCic = new CACMCIC($salesforceClient);
         $caClientRivalis = new CAClientRivalis($salesforceClient);
-		$caRivacentrale = new CARivacentrale($salesforceClient);
-        
+        $caRivacentrale = new CARivacentrale($salesforceClient);
+
         $start = $end = null;
         if (!empty($request->query->get("start")) && !empty($request->query->get("end"))) {
             $oneMonthDateInterval = new \DateInterval('P1M');
-            
+
             $start = new \DateTime($request->query->get("start"));
             $end = new \DateTime($request->query->get("end"));
             $end->modify('last day of this month 23:59:59.999999');
@@ -109,12 +112,12 @@ class StatsController extends AbstractController
         $caComnat = new CAComnatWithoutIdentifiedThirdParty($salesforceClient);
         $caCmCic = new CACMCICWithoutIdentifiedThirdParty($salesforceClient);
         $caClientRivalis = new CAClientRivalisWithoutIdentifiedThirdParty($salesforceClient);
-		$caRivacentrale = new CARivacentraleWithoutIdentifiedThirdParty($salesforceClient);
-        
+        $caRivacentrale = new CARivacentraleWithoutIdentifiedThirdParty($salesforceClient);
+
         $start = $end = null;
         if (!empty($request->query->get("start")) && !empty($request->query->get("end"))) {
             $oneMonthDateInterval = new \DateInterval('P1M');
-            
+
             $start = new \DateTime($request->query->get("start"));
             $end = new \DateTime($request->query->get("end"));
             $end->modify('last day of this month 23:59:59.999999');
@@ -158,6 +161,38 @@ class StatsController extends AbstractController
         return $this->json([
             'message' => 'Success',
             'data' => $lastStats
+        ]);
+    }
+
+    #[Route('/stats/analyticCompta', name: 'stats-compta-analytique')]
+    public function analyticStats(Request $request, SalesforceClient $salesforceClient)
+    {
+        $start = $end = null;
+        $externalExpenses = new ExternalExpensesStatistic($salesforceClient);
+        $socialExpenses = new SocialExpensesStatistic($salesforceClient);
+        $outsourcings = new OutsourcingStatistic($salesforceClient);
+        $sales = new SalesStatistic($salesforceClient);
+
+
+        if (!empty($request->query->get("start")) && !empty($request->query->get("end"))) {
+            $start = new \DateTime($request->query->get("start"));
+            $end = new \DateTime($request->query->get("end"));
+            $end->modify('last day of this month 23:59:59.999999');
+
+            $externalExpenses->setPeriod($start, $end);
+            $socialExpenses->setPeriod($start, $end);
+            $outsourcings->setPeriod($start, $end);
+            $sales->setPeriod($start, $end);
+        }
+
+        $formattedStats[$externalExpenses->getSlug()] = $externalExpenses->getResult();
+        $formattedStats[$socialExpenses->getSlug()] = $socialExpenses->getResult();
+        $formattedStats[$outsourcings->getSlug()] = $outsourcings->getResult();
+        $formattedStats[$sales->getSlug()] = $sales->getResult();
+
+        return $this->json([
+            'message' => 'Success',
+            'data' => $formattedStats
         ]);
     }
 }

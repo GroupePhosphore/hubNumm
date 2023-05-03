@@ -9,6 +9,7 @@ class QueryUtils
     private ?string $table;
     private $conditions = [];
     private ?string $order;
+    private ?string $group;
 
     /**
      * Set the command (useless if the command if SELECT)
@@ -55,9 +56,22 @@ class QueryUtils
         string $field,
         string $operator,
         string $expected
-        ): void
-    {
+    ): void {
         $this->conditions[] = $field . ' ' . $operator . " '" . $expected . "'";
+    }
+
+    /**
+     * Compare the field with the given string
+     *
+     * @param string $field
+     * @param string $operator
+     * @param string $expected
+     * @return void
+     */
+    public function setStringCondition(
+        string $condition
+    ): void {
+        $this->conditions[] = $condition;
     }
 
     public function setOrXCondition($condition1, $condition2): void
@@ -65,10 +79,10 @@ class QueryUtils
         $this->conditions[] = '( ' . $condition1 . ' OR ' . $condition2 . ' )';
     }
 
-	public function setNullCondition(string $field): void
-	{
-		$this->conditions[] = $field . ' = null';
-	}
+    public function setNullCondition(string $field): void
+    {
+        $this->conditions[] = $field . ' = null';
+    }
 
     public function setNotNullCondition(string $field): void
     {
@@ -87,8 +101,7 @@ class QueryUtils
         string $field,
         string $operator,
         string $expected
-        ): void
-    {
+    ): void {
         $this->conditions[] = $field . ' ' . $operator . ' ' . $expected;
     }
 
@@ -104,8 +117,7 @@ class QueryUtils
         string $field,
         \Datetime $date,
         string $operator
-        ): void
-    {
+    ): void {
         $this->conditions[] = $field . " " . $operator . " " . $date->format('Y-m-d');
     }
 
@@ -119,8 +131,7 @@ class QueryUtils
     public function setInArrayCondition(
         string $field,
         array $array
-        ): void
-    {
+    ): void {
         $this->conditions[] = $field . ' IN ' . $this->concatArrayForInCondition($array);
     }
 
@@ -133,6 +144,17 @@ class QueryUtils
     public function orderBy(array $fields): void
     {
         $this->order = implode(', ', $fields);
+    }
+
+    /**
+     * Set the fields to group by
+     *
+     * @param array $fields
+     * @return void
+     */
+    public function groupBy(array $fields): void
+    {
+        $this->group = implode(', ', $fields);
     }
 
     /**
@@ -151,12 +173,15 @@ class QueryUtils
             $query .= implode(' AND ', $this->conditions) . ' ';
         }
 
-        if ($this->order) {
+        if (isset($this->group)) {
+            $query .= 'GROUP BY ' . $this->group . ' ';
+        }
+        if (isset($this->order)) {
             $query .= 'ORDER BY ' . $this->order;
         }
         return $query;
     }
-    
+
     /**
      * Format the array for IN conditions as intellegible string for SOQL
      *
@@ -168,4 +193,3 @@ class QueryUtils
         return "('" . implode("', '", $array) . "') ";
     }
 }
-
