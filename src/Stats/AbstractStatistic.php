@@ -5,9 +5,10 @@ namespace App\Stats;
 use App\External\Salesforce\SalesforceClient;
 use App\External\Salesforce\Utils\QueryUtils;
 
-abstract class AbstractStatistic 
+abstract class AbstractStatistic
 {
     protected string $slug;
+    protected string $type;
     protected array $conseillerIdArray = [];
     protected bool $hasPeriod = false;
     protected \DateTime $start;
@@ -18,9 +19,8 @@ abstract class AbstractStatistic
 
     public function __construct(
         protected SalesforceClient $client
-    )
-    {
-        
+    ) {
+
     }
 
     public function setSlug(string $slug): void
@@ -31,6 +31,11 @@ abstract class AbstractStatistic
     public function getSlug(): string
     {
         return $this->slug;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type ?? null;
     }
 
     public function setPeriod(\DateTime $start, \DateTime $end): void
@@ -57,6 +62,7 @@ abstract class AbstractStatistic
     }
 
     abstract protected function firstCall();
-    abstract protected function parse ();
+    abstract protected function parse();
     abstract public function getResult();
 }
+

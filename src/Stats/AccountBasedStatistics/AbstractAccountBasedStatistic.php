@@ -7,6 +7,9 @@ use App\Stats\AbstractStatistic;
 
 abstract class AbstractAccountBasedStatistic extends AbstractStatistic
 {
+    public const TYPE_EXPENSE = 'charge';
+    public const TYPE_PRODUCT = 'produit';
+
     protected array $accountsRanges = [];
 
     protected function setAccounts(array $accountRange = []): void
@@ -77,6 +80,7 @@ abstract class AbstractAccountBasedStatistic extends AbstractStatistic
             }
             if (!isset($this->parsedData[$axis1][$axis2]['total'])) {
                 $this->parsedData[$axis1][$axis2]['total'] = 0;
+                $this->parsedData[$axis1][$axis2]['type'] = $this->getType();
             }
             $this->parsedData[$axis1][$axis2]['detail'][$account] += ($allocation->numm__CreditEntity__c - $allocation->numm__DebitEntity__c);
             $this->parsedData[$axis1][$axis2]['total'] += ($allocation->numm__CreditEntity__c - $allocation->numm__DebitEntity__c);
