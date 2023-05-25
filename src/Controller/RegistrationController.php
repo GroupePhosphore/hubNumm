@@ -13,11 +13,12 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/api', name: 'api_')]
 class RegistrationController extends AbstractController
 {
+    /**
     #[Route('/register', name: 'app_registration', methods: ['POST'])]
     public function index(Request $request, ManagerRegistry $doctrine, UserPasswordHasherInterface $userPasswordHasher): JsonResponse
     {
         $requestData = json_decode($request->getContent());
-        
+
         $plainPassword = $requestData->password;
 
         $user = new User();
@@ -35,4 +36,5 @@ class RegistrationController extends AbstractController
             'status' => 'Success'
         ]);
     }
+    */
 }
