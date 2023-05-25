@@ -167,6 +167,8 @@ class StatsController extends AbstractController
     #[Route('/stats/analyticCompta', name: 'stats-compta-analytique')]
     public function analyticStats(Request $request, SalesforceClient $salesforceClient)
     {
+        $initialMemoryLimit = ini_get('memory_limit');
+        ini_set('memory_limit', '2048M');
         $start = $end = null;
         $externalExpenses = new ExternalExpensesStatistic($salesforceClient);
         $socialExpenses = new SocialExpensesStatistic($salesforceClient);
@@ -190,6 +192,7 @@ class StatsController extends AbstractController
         $formattedStats[$outsourcings->getSlug()] = $outsourcings->getResult();
         $formattedStats[$sales->getSlug()] = $sales->getResult();
 
+        ini_set('memory_limit', $initialMemoryLimit);
         return $this->json([
             'message' => 'Success',
             'data' => $formattedStats
