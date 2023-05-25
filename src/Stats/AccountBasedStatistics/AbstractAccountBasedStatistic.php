@@ -43,13 +43,11 @@ abstract class AbstractAccountBasedStatistic extends AbstractStatistic
             $q->setDateCondition('numm__EcritureGenerale__r.numm__Piece__r.numm__BaselineDate__c', $this->end, '<=');
         }
         if (count($this->accountsRanges) > 0) {
-            $range = array_reduce($this->accountsRanges, function ($acc, $el) {
-                return $acc .= "numm__EcritureGenerale__r.numm__IdAccountingCode__r.Name LIKE '" . $el . "%' OR ";
-            }, '');
-
-            $lastWordPosition = strpos($range, ' OR ');
-            $range = substr($range, 0, $lastWordPosition);
-            $q->setStringCondition($range);
+            foreach ($this->accountsRanges as $value) {
+                $range[] =  "numm__EcritureGenerale__r.numm__IdAccountingCode__r.Name LIKE '" . $value . "%'";
+            }
+            $range = implode(' OR ', $range);
+            $q->setStringCondition('(' . $range . ')');
         }
         return $this->client->fetch->sql($q->getQuery());
     }
