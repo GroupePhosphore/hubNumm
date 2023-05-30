@@ -49,6 +49,7 @@ abstract class AbstractAccountBasedStatistic extends AbstractStatistic
             $range = implode(' OR ', $range);
             $q->setStringCondition('(' . $range . ')');
         }
+        // dd($q->getQuery());
         return $this->client->fetch->sql($q->getQuery());
     }
 

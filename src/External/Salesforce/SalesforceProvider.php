@@ -8,7 +8,6 @@ use Exception;
 use GuzzleHttp\{Client, RequestOptions};
 use Psr\Log\LoggerInterface;
 
-
 class SalesforceProvider
 {
     public function __construct(

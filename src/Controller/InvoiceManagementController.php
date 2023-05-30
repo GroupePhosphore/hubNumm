@@ -27,28 +27,18 @@ class InvoiceManagementController extends AbstractController
         $file = $request->files->get('file');
 
         try {
-            if ($file->getMimeType() !== 'text/csv') {
-                throw new \Exception('File type not allowed');
-            }
-        
-
-            $destination = $this->getParameter('kernel.project_dir') . '/public/uploads';
-
-            $savedFile = $file->move($destination);
-
+            $savedFile = $this->saveFile($file);
             $rows = [];
             if (($fp = fopen($savedFile->getPathname(), 'r')) !== false) {
                 while (($row = fgetcsv($fp)) !== false) {
                     $rows[] = $row;
                 }
             }
-
             unlink($savedFile->getPathname());
 
             if ($rows[0] !== ['DocumentId', 'Numéro', 'Nouveau numéro', 'DateEffet', 'DateCreation']) {
                 throw new \Exception('File columns error');
             }
-
             array_shift($rows);
 
             $updatedRows = [];
@@ -73,9 +63,9 @@ class InvoiceManagementController extends AbstractController
                 }
             }
 
-            $logger->info('Numero de factures - Synchro finie: ');
-            $logger->info('Erreurs : ' . json_encode($errorRows));
-            $logger->info('Succes : ' . json_encode($updatedRows));
+            $this->logger->info('Numero de factures - Synchro finie: ');
+            $this->logger->info('Erreurs : ' . json_encode($errorRows));
+            $this->logger->info('Succes : ' . json_encode($updatedRows));
 
             return $this->json([
                 'message' => 'Finish',
