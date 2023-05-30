@@ -154,6 +154,7 @@ class InvoiceManagementController extends AbstractController
             'destinationEstablishment' => $destinationEstablishment,
         ];
     }
+
     private function saveFile($file)
     {
         $fileIsCSV = $file->getMimeType() === 'text/csv' || ($file->getMimeType() === 'text/plain' && substr($file->getClientOriginalName(), -4, 4) === '.csv');
