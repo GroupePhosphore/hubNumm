@@ -8,7 +8,6 @@ use Exception;
 use GuzzleHttp\{Client, RequestOptions};
 use Psr\Log\LoggerInterface;
 
-
 class SalesforceProvider
 {
     public function __construct(
@@ -118,8 +117,7 @@ class SalesforceProvider
         string $entityName,
         string $establishementName,
         \DateTime $date
-        ): Object
-    {
+    ): Object {
         return $this->nummClient->makeRequest('POST', '/services/apexrest/nummapi/v1/voucher/updateNumber', [
             'initialNumber' => $initialBaseLine,
             'finalNumber' => $finalBaseLine,
@@ -128,5 +126,19 @@ class SalesforceProvider
             'initialEstablishment' => $establishementName,
             'initialJournal' => $journalName
         ]);
+    }
+
+    public function findLineId(array $line)
+    {
+        try {
+            $date = \DateTime::createFromFormat('d/m/Y', $line['date']);
+
+            $line['date'] = $date->format('Y-m-d');
+            $result = $this->nummClient->makeRequest('POST', '/services/apexrest/nummapi/v1/voucher/switchEntity', $line);
+            return $result;
+        } catch (\Exception $e) {
+            $this->logger->error('Import error - SFP1<br> ----------------------------------<br>' .$e->getMessage() . '<br> ----------------------------------<br>' .json_encode($line));
+            return null;
+        }
     }
 }
