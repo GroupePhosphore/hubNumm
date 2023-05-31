@@ -28,7 +28,12 @@
                                             "example": "Success"
                                         },
                                         "data": {
-                                            "type": "array"
+                                            "properties": {
+                                                "NOM_DE_LA_STAT": {
+                                                    "$ref": "#/components/schemas/StatisticClientRivalis"
+                                                }
+                                            },
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
@@ -37,6 +42,265 @@
                         }
                     }
                 }
+            }
+        },
+        "/stats/kerry-withoutid": {
+            "post": {
+                "summary": "Returns a list of gross sales statistics for Kerry",
+                "operationId": "f5c5fdff2db93cf72894d3e9ff8e1f1e",
+                "responses": {
+                    "200": {
+                        "description": "Liste de CA triés par type et par conseillers dans le cas où le conseiller n'a pas d'ID Datalake renseigné dans Numm",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Statistiques sans ID Datalake",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Success"
+                                        },
+                                        "data": {
+                                            "allOf": [
+                                                {
+                                                    "$ref": "#/components/schemas/StatisticWithoutIDClientRivalis"
+                                                },
+                                                {
+                                                    "$ref": "#/components/schemas/StatisticWithoutIDCMCIC"
+                                                },
+                                                {
+                                                    "$ref": "#/components/schemas/StatisticWithoutIDComnat"
+                                                },
+                                                {
+                                                    "$ref": "#/components/schemas/StatisticWithoutIDLeasis"
+                                                },
+                                                {
+                                                    "$ref": "#/components/schemas/StatisticWithoutIDLicenceDirecte"
+                                                },
+                                                {
+                                                    "$ref": "#/components/schemas/StatisticWithoutIDProgrammeCroissance"
+                                                },
+                                                {
+                                                    "$ref": "#/components/schemas/StatisticWithoutIDRedevance"
+                                                },
+                                                {
+                                                    "$ref": "#/components/schemas/StatisticWithoutIDRenouvellement"
+                                                },
+                                                {
+                                                    "$ref": "#/components/schemas/StatisticWithoutIDRivacentrale"
+                                                },
+                                                {
+                                                    "$ref": "#/components/schemas/StatisticWithoutIDRivashop"
+                                                },
+                                                {
+                                                    "$ref": "#/components/schemas/StatisticWithoutIDTotalReseau"
+                                                },
+                                                {
+                                                    "$ref": "#/components/schemas/StatisticWithoutIDTotalTPE"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "StatisticWithoutIDCMCIC": {
+                "properties": {
+                    "NOM_DU_CONSEILLER": {
+                        "properties": {
+                            "CA_CM_CIC": {
+                                "type": "number",
+                                "format": "float",
+                                "example": 12.2
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "StatisticClientRivalis": {
+                "properties": {
+                    "ID_DATALAKE_DU_CONSEILLER": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 12.2
+                    }
+                },
+                "type": "object"
+            },
+            "StatisticWithoutIDClientRivalis": {
+                "properties": {
+                    "NOM_DU_CONSEILLER": {
+                        "properties": {
+                            "CA_CLIENT_RIVALIS": {
+                                "type": "number",
+                                "format": "float",
+                                "example": 12.2
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "StatisticWithoutIDComnat": {
+                "properties": {
+                    "NOM_DU_CONSEILLER": {
+                        "properties": {
+                            "CA_COMNAT": {
+                                "type": "number",
+                                "format": "float",
+                                "example": 12.2
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "StatisticWithoutIDLeasis": {
+                "properties": {
+                    "NOM_DU_CONSEILLER": {
+                        "properties": {
+                            "CA_LEASIS": {
+                                "type": "number",
+                                "format": "float",
+                                "example": 12.2
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "StatisticWithoutIDLicenceDirecte": {
+                "properties": {
+                    "NOM_DU_CONSEILLER": {
+                        "properties": {
+                            "CA_LICENCE_DIRECTE": {
+                                "type": "number",
+                                "format": "float",
+                                "example": 12.2
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "StatisticWithoutIDProgrammeCroissance": {
+                "properties": {
+                    "NOM_DU_CONSEILLER": {
+                        "properties": {
+                            "CA_PROGRAMME_CROISSANCE": {
+                                "type": "number",
+                                "format": "float",
+                                "example": 12.2
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "StatisticWithoutIDRedevance": {
+                "properties": {
+                    "NOM_DU_CONSEILLER": {
+                        "properties": {
+                            "CA_REDEVANCE": {
+                                "type": "number",
+                                "format": "float",
+                                "example": 12.2
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "StatisticWithoutIDRenouvellement": {
+                "properties": {
+                    "NOM_DU_CONSEILLER": {
+                        "properties": {
+                            "CA_RENOUVELLEMENT": {
+                                "type": "number",
+                                "format": "float",
+                                "example": 12.2
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "StatisticWithoutIDRivacentrale": {
+                "properties": {
+                    "NOM_DU_CONSEILLER": {
+                        "properties": {
+                            "CA_RIVACENTRALE": {
+                                "type": "number",
+                                "format": "float",
+                                "example": 12.2
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "StatisticWithoutIDRivashop": {
+                "properties": {
+                    "NOM_DU_CONSEILLER": {
+                        "properties": {
+                            "CA_RIVASHOP": {
+                                "type": "number",
+                                "format": "float",
+                                "example": 12.2
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "StatisticWithoutIDTotalReseau": {
+                "properties": {
+                    "NOM_DU_CONSEILLER": {
+                        "properties": {
+                            "CA_TOTAL_RESEAU": {
+                                "type": "number",
+                                "format": "float",
+                                "example": 12.2
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "StatisticWithoutIDTotalTPE": {
+                "properties": {
+                    "NOM_DU_CONSEILLER": {
+                        "properties": {
+                            "CA_TOTAL_TPE": {
+                                "type": "number",
+                                "format": "float",
+                                "example": 12.2
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
             }
         }
     }

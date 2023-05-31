@@ -57,9 +57,12 @@ class StatsController extends AbstractCustomController
     *                 ),
     *               @OA\Property(
     *                   property="data",
-     *                  type="array",
-     *                  items=
-     * )   
+     *                  type="object",
+     *                  @OA\Property(
+     *                      property="NOM_DE_LA_STAT",
+     *                      ref="#/components/schemas/StatisticClientRivalis"
+     *              )
+     *          )   
      *      )
      *  )
      * )
@@ -127,6 +130,45 @@ class StatsController extends AbstractCustomController
     }
 
 
+    /**
+     * Returns a list of gross sales statistics for Kerry
+     *
+     * @param Request $request
+     * @param SalesforceClient $salesforceClient
+     * @return JsonResponse
+     * @OA\Post(
+     *  path="/stats/kerry-withoutid",
+     *  @OA\Response(
+     *      response="200",
+     *      description="Liste de CA triés par type et par conseillers dans le cas où le conseiller n'a pas d'ID Datalake renseigné dans Numm",
+     *      @OA\JsonContent(
+     *          description="Statistiques sans ID Datalake",
+     *                  @OA\Property(
+    *                       property="message",
+    *                      type="string",
+    *                      example="Success"
+    *                 ),
+    *               @OA\Property(
+    *                   property="data",
+     *                  allOf={
+     *                      @OA\Schema(ref="#/components/schemas/StatisticWithoutIDClientRivalis"),
+     *                      @OA\Schema(ref="#/components/schemas/StatisticWithoutIDCMCIC"),
+     *                      @OA\Schema(ref="#/components/schemas/StatisticWithoutIDComnat"),
+     *                      @OA\Schema(ref="#/components/schemas/StatisticWithoutIDLeasis"),
+     *                      @OA\Schema(ref="#/components/schemas/StatisticWithoutIDLicenceDirecte"),
+     *                      @OA\Schema(ref="#/components/schemas/StatisticWithoutIDProgrammeCroissance"),
+     *                      @OA\Schema(ref="#/components/schemas/StatisticWithoutIDRedevance"),
+     *                      @OA\Schema(ref="#/components/schemas/StatisticWithoutIDRenouvellement"),
+     *                      @OA\Schema(ref="#/components/schemas/StatisticWithoutIDRivacentrale"),
+     *                      @OA\Schema(ref="#/components/schemas/StatisticWithoutIDRivashop"),
+     *                      @OA\Schema(ref="#/components/schemas/StatisticWithoutIDTotalReseau"),
+     *                      @OA\Schema(ref="#/components/schemas/StatisticWithoutIDTotalTPE"),
+     *                  }
+     *          )   
+     *      )
+     *  )
+     * )
+     */
     #[Route('/stats/kerry-withoutid', name: 'stats-without-id')]
     public function statsWithoutId(Request $request, SalesforceClient $salesforceClient): JsonResponse
     {
