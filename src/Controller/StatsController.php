@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -36,8 +35,35 @@ use App\Stats\InvoiceBasedStatistics\CATotalTpeWithoutIdentifiedThirdParty;
 use App\Stats\InvoiceBasedStatistics\CARivacentraleWithoutIdentifiedThirdParty;
 
 #[Route('/api', name: 'api_')]
-class StatsController extends AbstractController
+class StatsController extends AbstractCustomController
 {
+    /**
+     * Returns a list of gross sales statistics for Kerry
+     *
+     * @param Request $request
+     * @param SalesforceClient $salesforceClient
+     * @return JsonResponse
+     * @OA\Post(
+     *  path="/stats/kerry",
+     *  @OA\Response(
+     *      response="200",
+     *      description="Liste de CA triés par type et par conseillers",
+     *      @OA\JsonContent(
+     *          description="Réponse",
+     *                  @OA\Property(
+    *                       property="message",
+    *                      type="string",
+    *                      example="Success"
+    *                 ),
+    *               @OA\Property(
+    *                   property="data",
+     *                  type="array",
+     *                  items=
+     * )   
+     *      )
+     *  )
+     * )
+     */
     #[Route('/stats/kerry', name: 'stats')]
     public function index(Request $request, SalesforceClient $salesforceClient): JsonResponse
     {

@@ -1,0 +1,43 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "HubNumm",
+        "version": "0.1"
+    },
+    "servers": [
+        {
+            "url": "http://test.com",
+            "description": "HubNumm"
+        }
+    ],
+    "paths": {
+        "/stats/kerry": {
+            "post": {
+                "summary": "Returns a list of gross sales statistics for Kerry",
+                "operationId": "4086de568fb8f3bef3cfb9b66e2f1e96",
+                "responses": {
+                    "200": {
+                        "description": "Liste de CA triés par type et par conseillers",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Réponse",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Success"
+                                        },
+                                        "data": {
+                                            "type": "array"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
