@@ -58,9 +58,22 @@ class StatsController extends AbstractCustomController
     *               @OA\Property(
     *                   property="data",
      *                  type="object",
-     *                  @OA\Property(
-     *                      property="NOM_DE_LA_STAT",
-     *                      ref="#/components/schemas/StatisticClientRivalis"
+     *                  allOf={
+     * 
+     *                      @OA\Schema(ref="#/components/schemas/StatisticClientRivalis"),
+     *                      @OA\Schema(ref="#/components/schemas/StatisticCMCIC"),
+     *                      @OA\Schema(ref="#/components/schemas/StatisticComnat"),
+     *                      @OA\Schema(ref="#/components/schemas/StatisticLeasis"),
+     *                      @OA\Schema(ref="#/components/schemas/StatisticLicenceDirecte"),
+     *                      @OA\Schema(ref="#/components/schemas/StatisticProgrammeCroissance"),
+     *                      @OA\Schema(ref="#/components/schemas/StatisticRedevance"),
+     *                      @OA\Schema(ref="#/components/schemas/StatisticRenouvellement"),
+     *                      @OA\Schema(ref="#/components/schemas/StatisticRivacentrale"),
+     *                      @OA\Schema(ref="#/components/schemas/StatisticRivashop"),
+     *                      @OA\Schema(ref="#/components/schemas/StatisticTotalReseau"),
+     *                      @OA\Schema(ref="#/components/schemas/StatisticTotalTPE"),
+     *                      
+     *                  }
      *              )
      *          )   
      *      )

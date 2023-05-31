@@ -28,12 +28,45 @@
                                             "example": "Success"
                                         },
                                         "data": {
-                                            "properties": {
-                                                "NOM_DE_LA_STAT": {
+                                            "type": "object",
+                                            "allOf": [
+                                                {
                                                     "$ref": "#/components/schemas/StatisticClientRivalis"
+                                                },
+                                                {
+                                                    "$ref": "#/components/schemas/StatisticCMCIC"
+                                                },
+                                                {
+                                                    "$ref": "#/components/schemas/StatisticComnat"
+                                                },
+                                                {
+                                                    "$ref": "#/components/schemas/StatisticLeasis"
+                                                },
+                                                {
+                                                    "$ref": "#/components/schemas/StatisticLicenceDirecte"
+                                                },
+                                                {
+                                                    "$ref": "#/components/schemas/StatisticProgrammeCroissance"
+                                                },
+                                                {
+                                                    "$ref": "#/components/schemas/StatisticRedevance"
+                                                },
+                                                {
+                                                    "$ref": "#/components/schemas/StatisticRenouvellement"
+                                                },
+                                                {
+                                                    "$ref": "#/components/schemas/StatisticRivacentrale"
+                                                },
+                                                {
+                                                    "$ref": "#/components/schemas/StatisticRivashop"
+                                                },
+                                                {
+                                                    "$ref": "#/components/schemas/StatisticTotalReseau"
+                                                },
+                                                {
+                                                    "$ref": "#/components/schemas/StatisticTotalTPE"
                                                 }
-                                            },
-                                            "type": "object"
+                                            ]
                                         }
                                     },
                                     "type": "object"
@@ -112,6 +145,21 @@
     },
     "components": {
         "schemas": {
+            "StatisticCMCIC": {
+                "properties": {
+                    "CA_CM_CIC": {
+                        "properties": {
+                            "ID_DATALAKE_DU_CONSEILLER": {
+                                "type": "number",
+                                "format": "float",
+                                "example": 123.01
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
             "StatisticWithoutIDCMCIC": {
                 "properties": {
                     "NOM_DU_CONSEILLER": {
@@ -129,10 +177,15 @@
             },
             "StatisticClientRivalis": {
                 "properties": {
-                    "ID_DATALAKE_DU_CONSEILLER": {
-                        "type": "number",
-                        "format": "float",
-                        "example": 12.2
+                    "CA_CLIENT_RIVALIS": {
+                        "properties": {
+                            "ID_DATALAKE_DU_CONSEILLER": {
+                                "type": "number",
+                                "format": "float",
+                                "example": 123.01
+                            }
+                        },
+                        "type": "object"
                     }
                 },
                 "type": "object"
@@ -145,6 +198,21 @@
                                 "type": "number",
                                 "format": "float",
                                 "example": 12.2
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "StatisticComnat": {
+                "properties": {
+                    "CA_COMNAT": {
+                        "properties": {
+                            "ID_DATALAKE_DU_CONSEILLER": {
+                                "type": "number",
+                                "format": "float",
+                                "example": 123.01
                             }
                         },
                         "type": "object"
@@ -167,6 +235,21 @@
                 },
                 "type": "object"
             },
+            "StatisticLeasis": {
+                "properties": {
+                    "CA_LEASIS": {
+                        "properties": {
+                            "ID_DATALAKE_DU_CONSEILLER": {
+                                "type": "number",
+                                "format": "float",
+                                "example": 123.01
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
             "StatisticWithoutIDLeasis": {
                 "properties": {
                     "NOM_DU_CONSEILLER": {
@@ -175,6 +258,21 @@
                                 "type": "number",
                                 "format": "float",
                                 "example": 12.2
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "StatisticLicenceDirecte": {
+                "properties": {
+                    "CA_LICENCE_DIRECTE": {
+                        "properties": {
+                            "ID_DATALAKE_DU_CONSEILLER": {
+                                "type": "number",
+                                "format": "float",
+                                "example": 123.01
                             }
                         },
                         "type": "object"
@@ -197,6 +295,21 @@
                 },
                 "type": "object"
             },
+            "StatisticProgrammeCroissance": {
+                "properties": {
+                    "CA_PROGRAMME_CROISSANCE": {
+                        "properties": {
+                            "ID_DATALAKE_DU_CONSEILLER": {
+                                "type": "number",
+                                "format": "float",
+                                "example": 123.01
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
             "StatisticWithoutIDProgrammeCroissance": {
                 "properties": {
                     "NOM_DU_CONSEILLER": {
@@ -205,6 +318,21 @@
                                 "type": "number",
                                 "format": "float",
                                 "example": 12.2
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "StatisticRedevance": {
+                "properties": {
+                    "CA_REDEVANCE": {
+                        "properties": {
+                            "ID_DATALAKE_DU_CONSEILLER": {
+                                "type": "number",
+                                "format": "float",
+                                "example": 123.01
                             }
                         },
                         "type": "object"
@@ -227,6 +355,21 @@
                 },
                 "type": "object"
             },
+            "StatisticRenouvellement": {
+                "properties": {
+                    "CA_RENOUVELLEMENT": {
+                        "properties": {
+                            "ID_DATALAKE_DU_CONSEILLER": {
+                                "type": "number",
+                                "format": "float",
+                                "example": 123.01
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
             "StatisticWithoutIDRenouvellement": {
                 "properties": {
                     "NOM_DU_CONSEILLER": {
@@ -235,6 +378,21 @@
                                 "type": "number",
                                 "format": "float",
                                 "example": 12.2
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "StatisticRivacentrale": {
+                "properties": {
+                    "CA_RIVACENTRALE": {
+                        "properties": {
+                            "ID_DATALAKE_DU_CONSEILLER": {
+                                "type": "number",
+                                "format": "float",
+                                "example": 123.01
                             }
                         },
                         "type": "object"
@@ -257,6 +415,21 @@
                 },
                 "type": "object"
             },
+            "StatisticRivashop": {
+                "properties": {
+                    "CA_RIVASHOP": {
+                        "properties": {
+                            "ID_DATALAKE_DU_CONSEILLER": {
+                                "type": "number",
+                                "format": "float",
+                                "example": 123.01
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
             "StatisticWithoutIDRivashop": {
                 "properties": {
                     "NOM_DU_CONSEILLER": {
@@ -272,6 +445,21 @@
                 },
                 "type": "object"
             },
+            "StatisticTotalReseau": {
+                "properties": {
+                    "CA_TOTAL_RESEAU": {
+                        "properties": {
+                            "ID_DATALAKE_DU_CONSEILLER": {
+                                "type": "number",
+                                "format": "float",
+                                "example": 123.01
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
             "StatisticWithoutIDTotalReseau": {
                 "properties": {
                     "NOM_DU_CONSEILLER": {
@@ -280,6 +468,21 @@
                                 "type": "number",
                                 "format": "float",
                                 "example": 12.2
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "StatisticTotalTPE": {
+                "properties": {
+                    "CA_TOTAL_TPE": {
+                        "properties": {
+                            "ID_DATALAKE_DU_CONSEILLER": {
+                                "type": "number",
+                                "format": "float",
+                                "example": 123.01
                             }
                         },
                         "type": "object"
