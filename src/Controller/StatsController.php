@@ -245,6 +245,41 @@ class StatsController extends AbstractCustomController
         ]);
     }
 
+
+    
+
+    /**
+     * Returns a accounting data by analytics
+     *
+     * @param Request $request
+     * @param SalesforceClient $salesforceClient
+     * @return JsonResponse
+     * @OA\Post(
+     *  path="/stats/analyticCompta",
+     *  @OA\Response(
+     *      response="200",
+     *      description="Liste de données analytiques par BU et par catégorie",
+     *      @OA\JsonContent(
+     *          description="Données de la comptabilité analytique, par BU et catégorie",
+     *                  @OA\Property(
+    *                       property="message",
+    *                      type="string",
+    *                      example="Success"
+    *                 ),
+    *               @OA\Property(
+    *                   property="data",
+     *                  allOf={
+     *                      @OA\Schema(ref="#/components/schemas/ExternalExpenses"),
+     *                      @OA\Schema(ref="#/components/schemas/Outsourcing"),
+     *                      @OA\Schema(ref="#/components/schemas/Sales"),
+     *                      @OA\Schema(ref="#/components/schemas/SocialExpenses"),
+     
+     *                  }
+     *          )   
+     *      )
+     *  )
+     * )
+     */
     #[Route('/stats/analyticCompta', name: 'stats-compta-analytique')]
     public function analyticStats(Request $request, SalesforceClient $salesforceClient)
     {

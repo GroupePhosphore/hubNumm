@@ -141,10 +141,207 @@
                     }
                 }
             }
+        },
+        "/stats/analyticCompta": {
+            "post": {
+                "summary": "Returns a accounting data by analytics",
+                "operationId": "7b1f8ba2ddd2daa84bee694b39b9ce8d",
+                "responses": {
+                    "200": {
+                        "description": "Liste de données analytiques par BU et par catégorie",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Données de la comptabilité analytique, par BU et catégorie",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Success"
+                                        },
+                                        "data": {
+                                            "allOf": [
+                                                {
+                                                    "$ref": "#/components/schemas/ExternalExpenses"
+                                                },
+                                                {
+                                                    "$ref": "#/components/schemas/Outsourcing"
+                                                },
+                                                {
+                                                    "$ref": "#/components/schemas/Sales"
+                                                },
+                                                {
+                                                    "$ref": "#/components/schemas/SocialExpenses"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
         "schemas": {
+            "ExternalExpenses": {
+                "properties": {
+                    "external_expenses": {
+                        "properties": {
+                            "Nom du Service": {
+                                "properties": {
+                                    "Nom du BU": {
+                                        "properties": {
+                                            "detail": {
+                                                "properties": {
+                                                    "numéro du compte": {
+                                                        "type": "number",
+                                                        "format": "float",
+                                                        "example": 62.23
+                                                    }
+                                                },
+                                                "type": "object"
+                                            },
+                                            "total": {
+                                                "type": "number",
+                                                "format": "float",
+                                                "example": 123.57
+                                            },
+                                            "type": {
+                                                "type": "string",
+                                                "example": "charge"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "Outsourcing": {
+                "properties": {
+                    "outsourcing": {
+                        "properties": {
+                            "Nom du Service": {
+                                "properties": {
+                                    "Nom du BU": {
+                                        "properties": {
+                                            "detail": {
+                                                "properties": {
+                                                    "numéro du compte": {
+                                                        "type": "number",
+                                                        "format": "float",
+                                                        "example": 62.23
+                                                    }
+                                                },
+                                                "type": "object"
+                                            },
+                                            "total": {
+                                                "type": "number",
+                                                "format": "float",
+                                                "example": 123.57
+                                            },
+                                            "type": {
+                                                "type": "string",
+                                                "example": "charge"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "Sales": {
+                "properties": {
+                    "sales": {
+                        "properties": {
+                            "Nom du Service": {
+                                "properties": {
+                                    "Nom du BU": {
+                                        "properties": {
+                                            "detail": {
+                                                "properties": {
+                                                    "numéro du compte": {
+                                                        "type": "number",
+                                                        "format": "float",
+                                                        "example": 62.23
+                                                    }
+                                                },
+                                                "type": "object"
+                                            },
+                                            "total": {
+                                                "type": "number",
+                                                "format": "float",
+                                                "example": 123.57
+                                            },
+                                            "type": {
+                                                "type": "string",
+                                                "example": "produi"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "SocialExpenses": {
+                "properties": {
+                    "social_expenses": {
+                        "properties": {
+                            "Nom du Service": {
+                                "properties": {
+                                    "Nom du BU": {
+                                        "properties": {
+                                            "detail": {
+                                                "properties": {
+                                                    "numéro du compte": {
+                                                        "type": "number",
+                                                        "format": "float",
+                                                        "example": 62.23
+                                                    }
+                                                },
+                                                "type": "object"
+                                            },
+                                            "total": {
+                                                "type": "number",
+                                                "format": "float",
+                                                "example": 123.57
+                                            },
+                                            "type": {
+                                                "type": "string",
+                                                "example": "charge"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
             "StatisticCMCIC": {
                 "properties": {
                     "CA_CM_CIC": {
