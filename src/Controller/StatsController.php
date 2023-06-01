@@ -47,6 +47,20 @@ class StatsController extends AbstractCustomController
      *  path="/api/stats/kerry",
      *  tags={"Statistiques"},
      *  security={ "bearer" },
+     *  @OA\Parameter(
+     *      name="start",
+     *      in="query",
+     *      required=true,
+     *      description="Date de début des données au format YYYY-mm (le premier jour de la période est pris en compte)",
+     *      example="2023-02"
+     *  ),
+     *  @OA\Parameter(
+     *      name="end",
+     *      in="query",
+     *      required=true,
+     *      description="Date de fin des données au format YYYY-mm (le dernier jour de la période est pris en compte)",
+     *      example="2023-02"
+     *  ),
      *  @OA\Response(
      *      response="200",
      *      description="Liste de CA triés par type et par conseillers",
@@ -153,9 +167,23 @@ class StatsController extends AbstractCustomController
      * @param SalesforceClient $salesforceClient
      * @return JsonResponse
      * @OA\Post(
-     *  path="/stats/kerry-withoutid",
+     *  path="/api/stats/kerry-withoutid",
      *  tags={"Statistiques"},
      *  security={ "bearer" },
+     *  @OA\Parameter(
+     *      name="start",
+     *      in="query",
+     *      required=true,
+     *      description="Date de début des données au format YYYY-mm (le premier jour de la période est pris en compte)",
+     *      example="2023-02"
+     *  ),
+     *  @OA\Parameter(
+     *      name="end",
+     *      in="query",
+     *      required=true,
+     *      description="Date de fin des données au format YYYY-mm (le dernier jour de la période est pris en compte)",
+     *      example="2023-02"
+     *  ),
      *  @OA\Response(
      *      response="200",
      *      description="Liste de CA triés par type et par conseillers dans le cas où le conseiller n'a pas d'ID Datalake renseigné dans Numm",
@@ -260,9 +288,23 @@ class StatsController extends AbstractCustomController
      * @param SalesforceClient $salesforceClient
      * @return JsonResponse
      * @OA\Post(
-     *  path="/stats/analyticCompta",
+     *  path="/api/stats/analyticCompta",
      *  tags={"Statistiques", "Analytique", "BU"},
      *  security={ "bearer" },
+     *  @OA\Parameter(
+     *      name="start",
+     *      in="query",
+     *      required=true,
+     *      description="Date de début des données au format YYYY-mm (le premier jour de la période est pris en compte)",
+     *      example="2023-02"
+     *  ),
+     *  @OA\Parameter(
+     *      name="end",
+     *      in="query",
+     *      required=true,
+     *      description="Date de fin des données au format YYYY-mm (le dernier jour de la période est pris en compte)",
+     *      example="2023-02"
+     *  ),
      *  @OA\Response(
      *      response="200",
      *      description="Liste de données analytiques par BU et par catégorie",

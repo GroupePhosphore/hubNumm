@@ -11,11 +11,17 @@ use OpenApi\Annotations as OA;
 /**
  * @OA\Info(
  * 	title="HubNumm",
- * 	version="0.1"
+ * 	version="0.1",
+ *  description="Micro service permettant d'interragir avec Numm (Logiciel de Comptabilité SASS)"
  * 	)
  * @OA\Server(
  * 	url="https://p.hubnumm.pprv.eu",
- * 	description="HubNumm"
+ * 	description="Prod"
+ * 	)
+ * 
+ * @OA\Server(
+ * 	url="https://pp.hubnumm.pprv.eu",
+ * 	description="Pré Prod"
  * 	)
  * 
  * 
@@ -30,6 +36,21 @@ use OpenApi\Annotations as OA;
  *  path="/api/login_check",
  *  tags={"Login"},
  *  description="Route de connexion",
+ * @OA\RequestBody(
+ *  required=true,
+ *  @OA\JsonContent(
+ *      @OA\Property(
+ *          property="username",
+ *          example="TitouLeLapinou",
+ *          type="string"
+ *      ),
+ *      @OA\Property(
+ *          property="password",
+ *          example="1234",
+ *          type="string"
+ *      )
+ *  )
+ * ),
  *  @OA\Response(
  *      response="200",
  *      description="L'utilisateur est authentifie",

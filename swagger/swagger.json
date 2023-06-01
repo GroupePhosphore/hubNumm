@@ -2,12 +2,17 @@
     "openapi": "3.0.0",
     "info": {
         "title": "HubNumm",
+        "description": "Micro service permettant d'interragir avec Numm (Logiciel de Comptabilité SASS)",
         "version": "0.1"
     },
     "servers": [
         {
             "url": "https://p.hubnumm.pprv.eu",
-            "description": "HubNumm"
+            "description": "Prod"
+        },
+        {
+            "url": "https://pp.hubnumm.pprv.eu",
+            "description": "Pré Prod"
         }
     ],
     "paths": {
@@ -17,6 +22,26 @@
                     "Login"
                 ],
                 "description": "Route de connexion",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "username": {
+                                        "type": "string",
+                                        "example": "TitouLeLapinou"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "1234"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
                         "description": "L'utilisateur est authentifie",
@@ -45,6 +70,22 @@
                 ],
                 "summary": "Returns a list of gross sales statistics for Kerry",
                 "operationId": "65af759acbbc4251d45c51e10c93875f",
+                "parameters": [
+                    {
+                        "name": "start",
+                        "in": "query",
+                        "description": "Date de début des données au format YYYY-mm (le premier jour de la période est pris en compte)",
+                        "required": true,
+                        "example": "2023-02"
+                    },
+                    {
+                        "name": "end",
+                        "in": "query",
+                        "description": "Date de fin des données au format YYYY-mm (le dernier jour de la période est pris en compte)",
+                        "required": true,
+                        "example": "2023-02"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Liste de CA triés par type et par conseillers",
@@ -112,13 +153,29 @@
                 ]
             }
         },
-        "/stats/kerry-withoutid": {
+        "/api/stats/kerry-withoutid": {
             "post": {
                 "tags": [
                     "Statistiques"
                 ],
                 "summary": "Returns a list of gross sales statistics for Kerry",
-                "operationId": "f5c5fdff2db93cf72894d3e9ff8e1f1e",
+                "operationId": "11b5a06650d6d8cdf78d6fde5dc911d1",
+                "parameters": [
+                    {
+                        "name": "start",
+                        "in": "query",
+                        "description": "Date de début des données au format YYYY-mm (le premier jour de la période est pris en compte)",
+                        "required": true,
+                        "example": "2023-02"
+                    },
+                    {
+                        "name": "end",
+                        "in": "query",
+                        "description": "Date de fin des données au format YYYY-mm (le dernier jour de la période est pris en compte)",
+                        "required": true,
+                        "example": "2023-02"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Liste de CA triés par type et par conseillers dans le cas où le conseiller n'a pas d'ID Datalake renseigné dans Numm",
@@ -185,7 +242,7 @@
                 ]
             }
         },
-        "/stats/analyticCompta": {
+        "/api/stats/analyticCompta": {
             "post": {
                 "tags": [
                     "Statistiques",
@@ -193,7 +250,23 @@
                     "BU"
                 ],
                 "summary": "Returns a accounting data by analytics",
-                "operationId": "7b1f8ba2ddd2daa84bee694b39b9ce8d",
+                "operationId": "462b0f065140108a7ca9876ff1b1ca1d",
+                "parameters": [
+                    {
+                        "name": "start",
+                        "in": "query",
+                        "description": "Date de début des données au format YYYY-mm (le premier jour de la période est pris en compte)",
+                        "required": true,
+                        "example": "2023-02"
+                    },
+                    {
+                        "name": "end",
+                        "in": "query",
+                        "description": "Date de fin des données au format YYYY-mm (le dernier jour de la période est pris en compte)",
+                        "required": true,
+                        "example": "2023-02"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Liste de données analytiques par BU et par catégorie",
