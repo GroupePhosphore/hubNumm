@@ -13,6 +13,9 @@
     "paths": {
         "/stats/kerry": {
             "post": {
+                "tags": [
+                    "Statistiques"
+                ],
                 "summary": "Returns a list of gross sales statistics for Kerry",
                 "operationId": "4086de568fb8f3bef3cfb9b66e2f1e96",
                 "responses": {
@@ -79,6 +82,9 @@
         },
         "/stats/kerry-withoutid": {
             "post": {
+                "tags": [
+                    "Statistiques"
+                ],
                 "summary": "Returns a list of gross sales statistics for Kerry",
                 "operationId": "f5c5fdff2db93cf72894d3e9ff8e1f1e",
                 "responses": {
@@ -144,6 +150,11 @@
         },
         "/stats/analyticCompta": {
             "post": {
+                "tags": [
+                    "Statistiques",
+                    "Analytique",
+                    "BU"
+                ],
                 "summary": "Returns a accounting data by analytics",
                 "operationId": "7b1f8ba2ddd2daa84bee694b39b9ce8d",
                 "responses": {
