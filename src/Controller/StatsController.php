@@ -44,8 +44,9 @@ class StatsController extends AbstractCustomController
      * @param SalesforceClient $salesforceClient
      * @return JsonResponse
      * @OA\Post(
-     *  path="/stats/kerry",
+     *  path="/api/stats/kerry",
      *  tags={"Statistiques"},
+     *  security={ "bearer" },
      *  @OA\Response(
      *      response="200",
      *      description="Liste de CA triés par type et par conseillers",
@@ -80,6 +81,7 @@ class StatsController extends AbstractCustomController
      *      )
      *  )
      * )
+     * 
      */
     #[Route('/stats/kerry', name: 'stats')]
     public function index(Request $request, SalesforceClient $salesforceClient): JsonResponse
@@ -153,6 +155,7 @@ class StatsController extends AbstractCustomController
      * @OA\Post(
      *  path="/stats/kerry-withoutid",
      *  tags={"Statistiques"},
+     *  security={ "bearer" },
      *  @OA\Response(
      *      response="200",
      *      description="Liste de CA triés par type et par conseillers dans le cas où le conseiller n'a pas d'ID Datalake renseigné dans Numm",
@@ -259,6 +262,7 @@ class StatsController extends AbstractCustomController
      * @OA\Post(
      *  path="/stats/analyticCompta",
      *  tags={"Statistiques", "Analytique", "BU"},
+     *  security={ "bearer" },
      *  @OA\Response(
      *      response="200",
      *      description="Liste de données analytiques par BU et par catégorie",

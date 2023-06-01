@@ -6,18 +6,45 @@
     },
     "servers": [
         {
-            "url": "http://test.com",
+            "url": "https://p.hubnumm.pprv.eu",
             "description": "HubNumm"
         }
     ],
     "paths": {
-        "/stats/kerry": {
+        "/api/login_check": {
+            "post": {
+                "tags": [
+                    "Login"
+                ],
+                "description": "Route de connexion",
+                "responses": {
+                    "200": {
+                        "description": "L'utilisateur est authentifie",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Réponse",
+                                    "properties": {
+                                        "token": {
+                                            "type": "string",
+                                            "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE2ODU1Mzk5NjEsImV4cCI6MTY4NTU0MzU2MSwicm9sZXMiOlsiUk9MRV9VU0VSIl0sInVzZXJuYW1lIjoiRGV2VXNlciJ9.QCRFlc85TPa-JdV9qYduyWLDLMVduj_BhA8utv1C72Qg7AqDDyBLeAzZgelghTwi3Fel4mtYn-5AgO8axQxMTENOQiXtdV5ztpV0nuLXyrhMJek8N5EAMA2ZsHBEDgwDJsPDQLihMfksfC2lTTA73CoeWe69gOYSi32048mYLgdq8awEBuA1JorDnY_c4hw3wLAGkiePU98ZZJMD60hrFIwT2gu5p04ryg2Sjp76bd0J4zoeMCbJ4eHGOazzAzoDtD3g9a9paNbZvkbUaGr_44dGWYaMCXu5VNWH42IFGFYU6GJfKpbdIa72ybwH5ht5uP0lrL6oKK7Ifzn9CNVSLQ"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/stats/kerry": {
             "post": {
                 "tags": [
                     "Statistiques"
                 ],
                 "summary": "Returns a list of gross sales statistics for Kerry",
-                "operationId": "4086de568fb8f3bef3cfb9b66e2f1e96",
+                "operationId": "65af759acbbc4251d45c51e10c93875f",
                 "responses": {
                     "200": {
                         "description": "Liste de CA triés par type et par conseillers",
@@ -77,7 +104,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "scalar": "bearer"
+                    }
+                ]
             }
         },
         "/stats/kerry-withoutid": {
@@ -145,7 +177,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "scalar": "bearer"
+                    }
+                ]
             }
         },
         "/stats/analyticCompta": {
@@ -191,7 +228,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "scalar": "bearer"
+                    }
+                ]
             }
         }
     },
@@ -712,6 +754,12 @@
                     }
                 },
                 "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "bearer": {
+                "type": "http",
+                "bearerFormat": "JWT"
             }
         }
     }
