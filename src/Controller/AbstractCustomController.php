@@ -3,10 +3,9 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Routing\Annotation\Route;
 use Psr\Log\LoggerInterface;
 use OpenApi\Annotations as OA;
-
-
 
 /**
  * @OA\Info(
@@ -18,20 +17,20 @@ use OpenApi\Annotations as OA;
  * 	url="https://p.hubnumm.pprv.eu",
  * 	description="Prod"
  * 	)
- * 
+ *
  * @OA\Server(
  * 	url="https://pp.hubnumm.pprv.eu",
  * 	description="Pré Prod"
  * 	)
- * 
- * 
+ *
+ *
  * @OA\SecurityScheme(
  *  bearerFormat="JWT",
  *  type="http",
  *  securityScheme="bearer"
  * )
- * 
- * 
+ *
+ *
  * @OA\Post(
  *  path="/api/login_check",
  *  tags={"Login"},
@@ -64,7 +63,7 @@ use OpenApi\Annotations as OA;
  *      )
  *  )
  * )
- * 
+ *
  */
 abstract class AbstractCustomController extends AbstractController
 {
@@ -72,3 +71,4 @@ abstract class AbstractCustomController extends AbstractController
     {
     }
 }
+
