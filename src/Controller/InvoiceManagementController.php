@@ -4,14 +4,13 @@ namespace App\Controller;
 
 use App\External\Salesforce\SalesforceClient;
 use Psr\Log\LoggerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/api')]
-class InvoiceManagementController extends AbstractController
+class InvoiceManagementController extends AbstractCustomController
 {
     public function __construct(private LoggerInterface $logger)
     {

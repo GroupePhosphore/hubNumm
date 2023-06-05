@@ -5,6 +5,9 @@ namespace App\Stats\InvoiceBasedStatistics;
 use App\External\Salesforce\Utils\QueryUtils;
 use App\Stats\AbstractStatistic;
 
+
+
+
 abstract class AbstractInvoiceBasedStatistic extends AbstractStatistic
 {
     protected array $accounts = [];

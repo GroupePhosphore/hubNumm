@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -36,8 +35,68 @@ use App\Stats\InvoiceBasedStatistics\CATotalTpeWithoutIdentifiedThirdParty;
 use App\Stats\InvoiceBasedStatistics\CARivacentraleWithoutIdentifiedThirdParty;
 
 #[Route('/api', name: 'api_')]
-class StatsController extends AbstractController
+class StatsController extends AbstractCustomController
 {
+    /**
+     * Returns a list of gross sales statistics for Kerry
+     *
+     * @param Request $request
+     * @param SalesforceClient $salesforceClient
+     * @return JsonResponse
+     * @OA\Post(
+     *  path="/api/stats/kerry",
+     *  tags={"Statistiques"},
+     *  security={ "bearer" },
+     *  @OA\Parameter(
+     *      name="start",
+     *      in="query",
+     *      required=true,
+     *      description="Date de début des données au format YYYY-mm (le premier jour de la période est pris en compte)",
+     *      example="2023-02"
+     *  ),
+     *  @OA\Parameter(
+     *      name="end",
+     *      in="query",
+     *      required=true,
+     *      description="Date de fin des données au format YYYY-mm (le dernier jour de la période est pris en compte)",
+     *      example="2023-02"
+     *  ),
+     *  @OA\Response(
+     *      response="200",
+     *      description="Liste de CA triés par type et par conseillers",
+     *      @OA\JsonContent(
+     *          description="Réponse",
+     *                  @OA\Property(
+    *                       property="message",
+    *                      type="string",
+    *                      example="Success"
+    *                 ),
+    *               @OA\Property(
+    *                   property="data",
+     *                  type="object",
+     *                  allOf={
+     * 
+     *                      @OA\Schema(ref="#/components/schemas/StatisticClientRivalis"),
+     *                      @OA\Schema(ref="#/components/schemas/StatisticCMCIC"),
+     *                      @OA\Schema(ref="#/components/schemas/StatisticComnat"),
+     *                      @OA\Schema(ref="#/components/schemas/StatisticLeasis"),
+     *                      @OA\Schema(ref="#/components/schemas/StatisticLicenceDirecte"),
+     *                      @OA\Schema(ref="#/components/schemas/StatisticProgrammeCroissance"),
+     *                      @OA\Schema(ref="#/components/schemas/StatisticRedevance"),
+     *                      @OA\Schema(ref="#/components/schemas/StatisticRenouvellement"),
+     *                      @OA\Schema(ref="#/components/schemas/StatisticRivacentrale"),
+     *                      @OA\Schema(ref="#/components/schemas/StatisticRivashop"),
+     *                      @OA\Schema(ref="#/components/schemas/StatisticTotalReseau"),
+     *                      @OA\Schema(ref="#/components/schemas/StatisticTotalTPE"),
+     *                      
+     *                  }
+     *              )
+     *          )   
+     *      )
+     *  )
+     * )
+     * 
+     */
     #[Route('/stats/kerry', name: 'stats')]
     public function index(Request $request, SalesforceClient $salesforceClient): JsonResponse
     {
@@ -101,6 +160,61 @@ class StatsController extends AbstractController
     }
 
 
+    /**
+     * Returns a list of gross sales statistics for Kerry
+     *
+     * @param Request $request
+     * @param SalesforceClient $salesforceClient
+     * @return JsonResponse
+     * @OA\Post(
+     *  path="/api/stats/kerry-withoutid",
+     *  tags={"Statistiques"},
+     *  security={ "bearer" },
+     *  @OA\Parameter(
+     *      name="start",
+     *      in="query",
+     *      required=true,
+     *      description="Date de début des données au format YYYY-mm (le premier jour de la période est pris en compte)",
+     *      example="2023-02"
+     *  ),
+     *  @OA\Parameter(
+     *      name="end",
+     *      in="query",
+     *      required=true,
+     *      description="Date de fin des données au format YYYY-mm (le dernier jour de la période est pris en compte)",
+     *      example="2023-02"
+     *  ),
+     *  @OA\Response(
+     *      response="200",
+     *      description="Liste de CA triés par type et par conseillers dans le cas où le conseiller n'a pas d'ID Datalake renseigné dans Numm",
+     *      @OA\JsonContent(
+     *          description="Statistiques sans ID Datalake",
+     *                  @OA\Property(
+    *                       property="message",
+    *                      type="string",
+    *                      example="Success"
+    *                 ),
+    *               @OA\Property(
+    *                   property="data",
+     *                  allOf={
+     *                      @OA\Schema(ref="#/components/schemas/StatisticWithoutIDClientRivalis"),
+     *                      @OA\Schema(ref="#/components/schemas/StatisticWithoutIDCMCIC"),
+     *                      @OA\Schema(ref="#/components/schemas/StatisticWithoutIDComnat"),
+     *                      @OA\Schema(ref="#/components/schemas/StatisticWithoutIDLeasis"),
+     *                      @OA\Schema(ref="#/components/schemas/StatisticWithoutIDLicenceDirecte"),
+     *                      @OA\Schema(ref="#/components/schemas/StatisticWithoutIDProgrammeCroissance"),
+     *                      @OA\Schema(ref="#/components/schemas/StatisticWithoutIDRedevance"),
+     *                      @OA\Schema(ref="#/components/schemas/StatisticWithoutIDRenouvellement"),
+     *                      @OA\Schema(ref="#/components/schemas/StatisticWithoutIDRivacentrale"),
+     *                      @OA\Schema(ref="#/components/schemas/StatisticWithoutIDRivashop"),
+     *                      @OA\Schema(ref="#/components/schemas/StatisticWithoutIDTotalReseau"),
+     *                      @OA\Schema(ref="#/components/schemas/StatisticWithoutIDTotalTPE"),
+     *                  }
+     *          )   
+     *      )
+     *  )
+     * )
+     */
     #[Route('/stats/kerry-withoutid', name: 'stats-without-id')]
     public function statsWithoutId(Request $request, SalesforceClient $salesforceClient): JsonResponse
     {
@@ -164,6 +278,57 @@ class StatsController extends AbstractController
         ]);
     }
 
+
+    
+
+    /**
+     * Returns a accounting data by analytics
+     *
+     * @param Request $request
+     * @param SalesforceClient $salesforceClient
+     * @return JsonResponse
+     * @OA\Post(
+     *  path="/api/stats/analyticCompta",
+     *  tags={"Statistiques", "Analytique", "BU"},
+     *  security={ "bearer" },
+     *  @OA\Parameter(
+     *      name="start",
+     *      in="query",
+     *      required=true,
+     *      description="Date de début des données au format YYYY-mm (le premier jour de la période est pris en compte)",
+     *      example="2023-02"
+     *  ),
+     *  @OA\Parameter(
+     *      name="end",
+     *      in="query",
+     *      required=true,
+     *      description="Date de fin des données au format YYYY-mm (le dernier jour de la période est pris en compte)",
+     *      example="2023-02"
+     *  ),
+     *  @OA\Response(
+     *      response="200",
+     *      description="Liste de données analytiques par BU et par catégorie",
+     *      @OA\JsonContent(
+     *          description="Données de la comptabilité analytique, par BU et catégorie",
+     *                  @OA\Property(
+    *                       property="message",
+    *                      type="string",
+    *                      example="Success"
+    *                 ),
+    *               @OA\Property(
+    *                   property="data",
+     *                  allOf={
+     *                      @OA\Schema(ref="#/components/schemas/ExternalExpenses"),
+     *                      @OA\Schema(ref="#/components/schemas/Outsourcing"),
+     *                      @OA\Schema(ref="#/components/schemas/Sales"),
+     *                      @OA\Schema(ref="#/components/schemas/SocialExpenses"),
+     
+     *                  }
+     *          )   
+     *      )
+     *  )
+     * )
+     */
     #[Route('/stats/analyticCompta', name: 'stats-compta-analytique')]
     public function analyticStats(Request $request, SalesforceClient $salesforceClient)
     {

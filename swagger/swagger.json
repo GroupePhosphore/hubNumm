@@ -1,0 +1,839 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "HubNumm",
+        "description": "Micro service permettant d'interragir avec Numm (Logiciel de Comptabilité SASS)",
+        "version": "0.1"
+    },
+    "servers": [
+        {
+            "url": "https://p.hubnumm.pprv.eu",
+            "description": "Prod"
+        },
+        {
+            "url": "https://pp.hubnumm.pprv.eu",
+            "description": "Pré Prod"
+        }
+    ],
+    "paths": {
+        "/api/login_check": {
+            "post": {
+                "tags": [
+                    "Login"
+                ],
+                "description": "Route de connexion",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "username": {
+                                        "type": "string",
+                                        "example": "TitouLeLapinou"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "1234"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "L'utilisateur est authentifie",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Réponse",
+                                    "properties": {
+                                        "token": {
+                                            "type": "string",
+                                            "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE2ODU1Mzk5NjEsImV4cCI6MTY4NTU0MzU2MSwicm9sZXMiOlsiUk9MRV9VU0VSIl0sInVzZXJuYW1lIjoiRGV2VXNlciJ9.QCRFlc85TPa-JdV9qYduyWLDLMVduj_BhA8utv1C72Qg7AqDDyBLeAzZgelghTwi3Fel4mtYn-5AgO8axQxMTENOQiXtdV5ztpV0nuLXyrhMJek8N5EAMA2ZsHBEDgwDJsPDQLihMfksfC2lTTA73CoeWe69gOYSi32048mYLgdq8awEBuA1JorDnY_c4hw3wLAGkiePU98ZZJMD60hrFIwT2gu5p04ryg2Sjp76bd0J4zoeMCbJ4eHGOazzAzoDtD3g9a9paNbZvkbUaGr_44dGWYaMCXu5VNWH42IFGFYU6GJfKpbdIa72ybwH5ht5uP0lrL6oKK7Ifzn9CNVSLQ"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/stats/kerry": {
+            "post": {
+                "tags": [
+                    "Statistiques"
+                ],
+                "summary": "Returns a list of gross sales statistics for Kerry",
+                "operationId": "65af759acbbc4251d45c51e10c93875f",
+                "parameters": [
+                    {
+                        "name": "start",
+                        "in": "query",
+                        "description": "Date de début des données au format YYYY-mm (le premier jour de la période est pris en compte)",
+                        "required": true,
+                        "example": "2023-02"
+                    },
+                    {
+                        "name": "end",
+                        "in": "query",
+                        "description": "Date de fin des données au format YYYY-mm (le dernier jour de la période est pris en compte)",
+                        "required": true,
+                        "example": "2023-02"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Liste de CA triés par type et par conseillers",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Réponse",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Success"
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "allOf": [
+                                                {
+                                                    "$ref": "#/components/schemas/StatisticClientRivalis"
+                                                },
+                                                {
+                                                    "$ref": "#/components/schemas/StatisticCMCIC"
+                                                },
+                                                {
+                                                    "$ref": "#/components/schemas/StatisticComnat"
+                                                },
+                                                {
+                                                    "$ref": "#/components/schemas/StatisticLeasis"
+                                                },
+                                                {
+                                                    "$ref": "#/components/schemas/StatisticLicenceDirecte"
+                                                },
+                                                {
+                                                    "$ref": "#/components/schemas/StatisticProgrammeCroissance"
+                                                },
+                                                {
+                                                    "$ref": "#/components/schemas/StatisticRedevance"
+                                                },
+                                                {
+                                                    "$ref": "#/components/schemas/StatisticRenouvellement"
+                                                },
+                                                {
+                                                    "$ref": "#/components/schemas/StatisticRivacentrale"
+                                                },
+                                                {
+                                                    "$ref": "#/components/schemas/StatisticRivashop"
+                                                },
+                                                {
+                                                    "$ref": "#/components/schemas/StatisticTotalReseau"
+                                                },
+                                                {
+                                                    "$ref": "#/components/schemas/StatisticTotalTPE"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "scalar": "bearer"
+                    }
+                ]
+            }
+        },
+        "/api/stats/kerry-withoutid": {
+            "post": {
+                "tags": [
+                    "Statistiques"
+                ],
+                "summary": "Returns a list of gross sales statistics for Kerry",
+                "operationId": "11b5a06650d6d8cdf78d6fde5dc911d1",
+                "parameters": [
+                    {
+                        "name": "start",
+                        "in": "query",
+                        "description": "Date de début des données au format YYYY-mm (le premier jour de la période est pris en compte)",
+                        "required": true,
+                        "example": "2023-02"
+                    },
+                    {
+                        "name": "end",
+                        "in": "query",
+                        "description": "Date de fin des données au format YYYY-mm (le dernier jour de la période est pris en compte)",
+                        "required": true,
+                        "example": "2023-02"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Liste de CA triés par type et par conseillers dans le cas où le conseiller n'a pas d'ID Datalake renseigné dans Numm",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Statistiques sans ID Datalake",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Success"
+                                        },
+                                        "data": {
+                                            "allOf": [
+                                                {
+                                                    "$ref": "#/components/schemas/StatisticWithoutIDClientRivalis"
+                                                },
+                                                {
+                                                    "$ref": "#/components/schemas/StatisticWithoutIDCMCIC"
+                                                },
+                                                {
+                                                    "$ref": "#/components/schemas/StatisticWithoutIDComnat"
+                                                },
+                                                {
+                                                    "$ref": "#/components/schemas/StatisticWithoutIDLeasis"
+                                                },
+                                                {
+                                                    "$ref": "#/components/schemas/StatisticWithoutIDLicenceDirecte"
+                                                },
+                                                {
+                                                    "$ref": "#/components/schemas/StatisticWithoutIDProgrammeCroissance"
+                                                },
+                                                {
+                                                    "$ref": "#/components/schemas/StatisticWithoutIDRedevance"
+                                                },
+                                                {
+                                                    "$ref": "#/components/schemas/StatisticWithoutIDRenouvellement"
+                                                },
+                                                {
+                                                    "$ref": "#/components/schemas/StatisticWithoutIDRivacentrale"
+                                                },
+                                                {
+                                                    "$ref": "#/components/schemas/StatisticWithoutIDRivashop"
+                                                },
+                                                {
+                                                    "$ref": "#/components/schemas/StatisticWithoutIDTotalReseau"
+                                                },
+                                                {
+                                                    "$ref": "#/components/schemas/StatisticWithoutIDTotalTPE"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "scalar": "bearer"
+                    }
+                ]
+            }
+        },
+        "/api/stats/analyticCompta": {
+            "post": {
+                "tags": [
+                    "Statistiques",
+                    "Analytique",
+                    "BU"
+                ],
+                "summary": "Returns a accounting data by analytics",
+                "operationId": "462b0f065140108a7ca9876ff1b1ca1d",
+                "parameters": [
+                    {
+                        "name": "start",
+                        "in": "query",
+                        "description": "Date de début des données au format YYYY-mm (le premier jour de la période est pris en compte)",
+                        "required": true,
+                        "example": "2023-02"
+                    },
+                    {
+                        "name": "end",
+                        "in": "query",
+                        "description": "Date de fin des données au format YYYY-mm (le dernier jour de la période est pris en compte)",
+                        "required": true,
+                        "example": "2023-02"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Liste de données analytiques par BU et par catégorie",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Données de la comptabilité analytique, par BU et catégorie",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Success"
+                                        },
+                                        "data": {
+                                            "allOf": [
+                                                {
+                                                    "$ref": "#/components/schemas/ExternalExpenses"
+                                                },
+                                                {
+                                                    "$ref": "#/components/schemas/Outsourcing"
+                                                },
+                                                {
+                                                    "$ref": "#/components/schemas/Sales"
+                                                },
+                                                {
+                                                    "$ref": "#/components/schemas/SocialExpenses"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "scalar": "bearer"
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "ExternalExpenses": {
+                "properties": {
+                    "external_expenses": {
+                        "properties": {
+                            "Nom du Service": {
+                                "properties": {
+                                    "Nom du BU": {
+                                        "properties": {
+                                            "detail": {
+                                                "properties": {
+                                                    "numéro du compte": {
+                                                        "type": "number",
+                                                        "format": "float",
+                                                        "example": 62.23
+                                                    }
+                                                },
+                                                "type": "object"
+                                            },
+                                            "total": {
+                                                "type": "number",
+                                                "format": "float",
+                                                "example": 123.57
+                                            },
+                                            "type": {
+                                                "type": "string",
+                                                "example": "charge"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "Outsourcing": {
+                "properties": {
+                    "outsourcing": {
+                        "properties": {
+                            "Nom du Service": {
+                                "properties": {
+                                    "Nom du BU": {
+                                        "properties": {
+                                            "detail": {
+                                                "properties": {
+                                                    "numéro du compte": {
+                                                        "type": "number",
+                                                        "format": "float",
+                                                        "example": 62.23
+                                                    }
+                                                },
+                                                "type": "object"
+                                            },
+                                            "total": {
+                                                "type": "number",
+                                                "format": "float",
+                                                "example": 123.57
+                                            },
+                                            "type": {
+                                                "type": "string",
+                                                "example": "charge"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "Sales": {
+                "properties": {
+                    "sales": {
+                        "properties": {
+                            "Nom du Service": {
+                                "properties": {
+                                    "Nom du BU": {
+                                        "properties": {
+                                            "detail": {
+                                                "properties": {
+                                                    "numéro du compte": {
+                                                        "type": "number",
+                                                        "format": "float",
+                                                        "example": 62.23
+                                                    }
+                                                },
+                                                "type": "object"
+                                            },
+                                            "total": {
+                                                "type": "number",
+                                                "format": "float",
+                                                "example": 123.57
+                                            },
+                                            "type": {
+                                                "type": "string",
+                                                "example": "produi"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "SocialExpenses": {
+                "properties": {
+                    "social_expenses": {
+                        "properties": {
+                            "Nom du Service": {
+                                "properties": {
+                                    "Nom du BU": {
+                                        "properties": {
+                                            "detail": {
+                                                "properties": {
+                                                    "numéro du compte": {
+                                                        "type": "number",
+                                                        "format": "float",
+                                                        "example": 62.23
+                                                    }
+                                                },
+                                                "type": "object"
+                                            },
+                                            "total": {
+                                                "type": "number",
+                                                "format": "float",
+                                                "example": 123.57
+                                            },
+                                            "type": {
+                                                "type": "string",
+                                                "example": "charge"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "StatisticCMCIC": {
+                "properties": {
+                    "CA_CM_CIC": {
+                        "properties": {
+                            "ID_DATALAKE_DU_CONSEILLER": {
+                                "type": "number",
+                                "format": "float",
+                                "example": 123.01
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "StatisticWithoutIDCMCIC": {
+                "properties": {
+                    "NOM_DU_CONSEILLER": {
+                        "properties": {
+                            "CA_CM_CIC": {
+                                "type": "number",
+                                "format": "float",
+                                "example": 12.2
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "StatisticClientRivalis": {
+                "properties": {
+                    "CA_CLIENT_RIVALIS": {
+                        "properties": {
+                            "ID_DATALAKE_DU_CONSEILLER": {
+                                "type": "number",
+                                "format": "float",
+                                "example": 123.01
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "StatisticWithoutIDClientRivalis": {
+                "properties": {
+                    "NOM_DU_CONSEILLER": {
+                        "properties": {
+                            "CA_CLIENT_RIVALIS": {
+                                "type": "number",
+                                "format": "float",
+                                "example": 12.2
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "StatisticComnat": {
+                "properties": {
+                    "CA_COMNAT": {
+                        "properties": {
+                            "ID_DATALAKE_DU_CONSEILLER": {
+                                "type": "number",
+                                "format": "float",
+                                "example": 123.01
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "StatisticWithoutIDComnat": {
+                "properties": {
+                    "NOM_DU_CONSEILLER": {
+                        "properties": {
+                            "CA_COMNAT": {
+                                "type": "number",
+                                "format": "float",
+                                "example": 12.2
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "StatisticLeasis": {
+                "properties": {
+                    "CA_LEASIS": {
+                        "properties": {
+                            "ID_DATALAKE_DU_CONSEILLER": {
+                                "type": "number",
+                                "format": "float",
+                                "example": 123.01
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "StatisticWithoutIDLeasis": {
+                "properties": {
+                    "NOM_DU_CONSEILLER": {
+                        "properties": {
+                            "CA_LEASIS": {
+                                "type": "number",
+                                "format": "float",
+                                "example": 12.2
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "StatisticLicenceDirecte": {
+                "properties": {
+                    "CA_LICENCE_DIRECTE": {
+                        "properties": {
+                            "ID_DATALAKE_DU_CONSEILLER": {
+                                "type": "number",
+                                "format": "float",
+                                "example": 123.01
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "StatisticWithoutIDLicenceDirecte": {
+                "properties": {
+                    "NOM_DU_CONSEILLER": {
+                        "properties": {
+                            "CA_LICENCE_DIRECTE": {
+                                "type": "number",
+                                "format": "float",
+                                "example": 12.2
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "StatisticProgrammeCroissance": {
+                "properties": {
+                    "CA_PROGRAMME_CROISSANCE": {
+                        "properties": {
+                            "ID_DATALAKE_DU_CONSEILLER": {
+                                "type": "number",
+                                "format": "float",
+                                "example": 123.01
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "StatisticWithoutIDProgrammeCroissance": {
+                "properties": {
+                    "NOM_DU_CONSEILLER": {
+                        "properties": {
+                            "CA_PROGRAMME_CROISSANCE": {
+                                "type": "number",
+                                "format": "float",
+                                "example": 12.2
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "StatisticRedevance": {
+                "properties": {
+                    "CA_REDEVANCE": {
+                        "properties": {
+                            "ID_DATALAKE_DU_CONSEILLER": {
+                                "type": "number",
+                                "format": "float",
+                                "example": 123.01
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "StatisticWithoutIDRedevance": {
+                "properties": {
+                    "NOM_DU_CONSEILLER": {
+                        "properties": {
+                            "CA_REDEVANCE": {
+                                "type": "number",
+                                "format": "float",
+                                "example": 12.2
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "StatisticRenouvellement": {
+                "properties": {
+                    "CA_RENOUVELLEMENT": {
+                        "properties": {
+                            "ID_DATALAKE_DU_CONSEILLER": {
+                                "type": "number",
+                                "format": "float",
+                                "example": 123.01
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "StatisticWithoutIDRenouvellement": {
+                "properties": {
+                    "NOM_DU_CONSEILLER": {
+                        "properties": {
+                            "CA_RENOUVELLEMENT": {
+                                "type": "number",
+                                "format": "float",
+                                "example": 12.2
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "StatisticRivacentrale": {
+                "properties": {
+                    "CA_RIVACENTRALE": {
+                        "properties": {
+                            "ID_DATALAKE_DU_CONSEILLER": {
+                                "type": "number",
+                                "format": "float",
+                                "example": 123.01
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "StatisticWithoutIDRivacentrale": {
+                "properties": {
+                    "NOM_DU_CONSEILLER": {
+                        "properties": {
+                            "CA_RIVACENTRALE": {
+                                "type": "number",
+                                "format": "float",
+                                "example": 12.2
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "StatisticRivashop": {
+                "properties": {
+                    "CA_RIVASHOP": {
+                        "properties": {
+                            "ID_DATALAKE_DU_CONSEILLER": {
+                                "type": "number",
+                                "format": "float",
+                                "example": 123.01
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "StatisticWithoutIDRivashop": {
+                "properties": {
+                    "NOM_DU_CONSEILLER": {
+                        "properties": {
+                            "CA_RIVASHOP": {
+                                "type": "number",
+                                "format": "float",
+                                "example": 12.2
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "StatisticTotalReseau": {
+                "properties": {
+                    "CA_TOTAL_RESEAU": {
+                        "properties": {
+                            "ID_DATALAKE_DU_CONSEILLER": {
+                                "type": "number",
+                                "format": "float",
+                                "example": 123.01
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "StatisticWithoutIDTotalReseau": {
+                "properties": {
+                    "NOM_DU_CONSEILLER": {
+                        "properties": {
+                            "CA_TOTAL_RESEAU": {
+                                "type": "number",
+                                "format": "float",
+                                "example": 12.2
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "StatisticTotalTPE": {
+                "properties": {
+                    "CA_TOTAL_TPE": {
+                        "properties": {
+                            "ID_DATALAKE_DU_CONSEILLER": {
+                                "type": "number",
+                                "format": "float",
+                                "example": 123.01
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "StatisticWithoutIDTotalTPE": {
+                "properties": {
+                    "NOM_DU_CONSEILLER": {
+                        "properties": {
+                            "CA_TOTAL_TPE": {
+                                "type": "number",
+                                "format": "float",
+                                "example": 12.2
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "bearer": {
+                "type": "http",
+                "bearerFormat": "JWT"
+            }
+        }
+    }
+}

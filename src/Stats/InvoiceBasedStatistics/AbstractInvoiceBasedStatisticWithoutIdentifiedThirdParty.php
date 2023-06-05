@@ -4,6 +4,7 @@ namespace App\Stats\InvoiceBasedStatistics;
 
 use App\External\Salesforce\Utils\QueryUtils;
 use App\Stats\InvoiceBasedStatistics\AbstractInvoiceBasedStatistic;
+use Swagger\Annotations as SWG;
 
 abstract class AbstractInvoiceBasedStatisticWithoutIdentifiedThirdParty extends AbstractInvoiceBasedStatistic
 {
