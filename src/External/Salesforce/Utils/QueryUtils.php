@@ -9,6 +9,7 @@ class QueryUtils
     private ?string $table;
     private $conditions = [];
     private ?string $order;
+    private ?string $limit;
     private ?string $group;
 
     /**
@@ -135,6 +136,12 @@ class QueryUtils
         $this->conditions[] = $field . ' IN ' . $this->concatArrayForInCondition($array);
     }
 
+    public function setLimit(int $limit = 100, int $offset = 0)
+    {
+        $this->limit = 'LIMIT ' . $limit . ' OFFSET ' . $offset;
+    }
+
+
     /**
      * Set the fields to order by
      *
@@ -178,6 +185,9 @@ class QueryUtils
         }
         if (isset($this->order)) {
             $query .= 'ORDER BY ' . $this->order;
+        }
+        if (isset($this->limit)) {
+            $query .= $this->limit;
         }
         return $query;
     }

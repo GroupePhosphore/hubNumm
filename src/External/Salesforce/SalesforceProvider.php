@@ -15,6 +15,57 @@ class SalesforceProvider
         private LoggerInterface $logger
     ) {
     }
+
+    public function getAllConseillers()
+    {
+        $q = new QueryUtils();
+
+        $q->setTable('numm__ThirdParty__c');
+
+        $q->addField('Id');
+        $q->addField('Name');
+        $q->addField('IdDataLake__c');
+        $q->addField('Id_Datalake_Referent__c');
+        $q->addField('Cat_gorie_de_tiers__c');
+
+        $q->setInArrayCondition('Cat_gorie_de_tiers__c', ['Conseiller', 'Conseiller Distributeur']);
+        return $this->sql($q->getQuery());
+    }
+
+    public function getConseillerByIdDatalake(string $id)
+    {
+        $q = new QueryUtils();
+
+        $q->setTable('numm__ThirdParty__c');
+
+        $q->addField('Id');
+        $q->addField('Name');
+        $q->addField('IdDataLake__c');
+        $q->addField('Id_Datalake_Referent__c');
+        $q->addField('Cat_gorie_de_tiers__c');
+
+        $sq = new QueryUtils();
+        $sq->setTable('numm__IdthirdParty__r');
+        $sq->addField('Id');
+        $sq->addField('Name');
+        $sq->addField('numm__Code_Tiers_externe__c');
+        $sq->addField('numm__Type_de_collectif__c');
+        $sq->addField('numm__Entite__r.Name');
+        $sq->addField('numm__Entite__r.Id');
+        $sq = $sq->getQuery();
+
+        $q->addField('(' . $sq . ')');
+
+        $q->setInArrayCondition('Cat_gorie_de_tiers__c', ['Conseiller', 'Conseiller Distributeur']);
+        $q->setStringCondition("IdDataLake__c = '" . $id . "'");
+
+        $q->setLimit(1, 0);
+        // dd($q->getQuery());
+
+        return $this->sql($q->getQuery());
+
+    }
+
     /**
      * Make and execute the query to fetch all invoices from NUMM,
      * in a class 7 (Products) account or in a given list,
