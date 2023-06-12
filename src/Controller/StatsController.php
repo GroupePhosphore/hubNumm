@@ -34,6 +34,8 @@ use App\Stats\InvoiceBasedStatistics\CATotalReseauWithoutIdentifiedThirdParty;
 use App\Stats\InvoiceBasedStatistics\CATotalTpeWithoutIdentifiedThirdParty;
 use App\Stats\InvoiceBasedStatistics\CARivacentraleWithoutIdentifiedThirdParty;
 
+use OpenApi\Annotations as OA;
+
 #[Route('/api', name: 'api_')]
 class StatsController extends AbstractCustomController
 {
@@ -75,7 +77,7 @@ class StatsController extends AbstractCustomController
     *                   property="data",
      *                  type="object",
      *                  allOf={
-     * 
+     *
      *                      @OA\Schema(ref="#/components/schemas/StatisticClientRivalis"),
      *                      @OA\Schema(ref="#/components/schemas/StatisticCMCIC"),
      *                      @OA\Schema(ref="#/components/schemas/StatisticComnat"),
@@ -88,14 +90,14 @@ class StatsController extends AbstractCustomController
      *                      @OA\Schema(ref="#/components/schemas/StatisticRivashop"),
      *                      @OA\Schema(ref="#/components/schemas/StatisticTotalReseau"),
      *                      @OA\Schema(ref="#/components/schemas/StatisticTotalTPE"),
-     *                      
+     *
      *                  }
      *              )
-     *          )   
+     *          )
      *      )
      *  )
      * )
-     * 
+     *
      */
     #[Route('/stats/kerry', name: 'stats')]
     public function index(Request $request, SalesforceClient $salesforceClient): JsonResponse
@@ -210,7 +212,7 @@ class StatsController extends AbstractCustomController
      *                      @OA\Schema(ref="#/components/schemas/StatisticWithoutIDTotalReseau"),
      *                      @OA\Schema(ref="#/components/schemas/StatisticWithoutIDTotalTPE"),
      *                  }
-     *          )   
+     *          )
      *      )
      *  )
      * )
@@ -279,7 +281,7 @@ class StatsController extends AbstractCustomController
     }
 
 
-    
+
 
     /**
      * Returns a accounting data by analytics
@@ -322,9 +324,9 @@ class StatsController extends AbstractCustomController
      *                      @OA\Schema(ref="#/components/schemas/Outsourcing"),
      *                      @OA\Schema(ref="#/components/schemas/Sales"),
      *                      @OA\Schema(ref="#/components/schemas/SocialExpenses"),
-     
+
      *                  }
-     *          )   
+     *          )
      *      )
      *  )
      * )
