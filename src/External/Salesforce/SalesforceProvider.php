@@ -4,6 +4,7 @@ namespace App\External\Salesforce;
 
 use App\External\Salesforce\Utils\QueryUtils;
 use DateTime;
+use Doctrine\DBAL\Query;
 use Exception;
 use GuzzleHttp\{Client, RequestOptions};
 use Psr\Log\LoggerInterface;
@@ -60,11 +61,26 @@ class SalesforceProvider
         $q->setStringCondition("IdDataLake__c = '" . $id . "'");
 
         $q->setLimit(1, 0);
-        // dd($q->getQuery());
 
         return $this->sql($q->getQuery());
+    }
+
+    public function createConseiller(string $datalakeId, array $updateFields)
+    {
+        $data = array_merge($updateFields, ['id' => $datalakeId]);
+
+        return $this->nummClient->makeRequest('POST', '/services/apexrest/nummapi/v1/thirdParty/create', $data);
 
     }
+
+    public function updateConseiller(string $datalakeId, array $updateFields)
+    {
+        $data = array_merge($updateFields, ['id' => $datalakeId]);
+
+        return $this->nummClient->makeRequest('PATCH', '/services/apexrest/nummapi/v1/thirdParty/update', $data);
+
+    }
+
 
     /**
      * Make and execute the query to fetch all invoices from NUMM,
