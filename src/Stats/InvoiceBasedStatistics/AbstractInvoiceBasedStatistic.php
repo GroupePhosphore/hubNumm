@@ -5,14 +5,11 @@ namespace App\Stats\InvoiceBasedStatistics;
 use App\External\Salesforce\Utils\QueryUtils;
 use App\Stats\AbstractStatistic;
 
-
-
-
 abstract class AbstractInvoiceBasedStatistic extends AbstractStatistic
 {
     protected array $accounts = [];
     protected array $conseillerIdArray = [];
-    
+
     protected function setAccounts(array $accounts = []): void
     {
         $this->accounts = $accounts;
@@ -35,7 +32,7 @@ abstract class AbstractInvoiceBasedStatistic extends AbstractStatistic
         $q->addField('numm__IdAccountingCode__r.Name');
         $q->addField('numm__Amount__c');
         $q->addField('numm__Tech_SensMontant__c');
-        
+
         $q->setTable('numm__VoucherTransaction__c');
 
         if ($this->conseillerIdArray && count($this->conseillerIdArray) > 1) {
@@ -48,7 +45,7 @@ abstract class AbstractInvoiceBasedStatistic extends AbstractStatistic
                     'numm__Piece__r.numm__Role_du_Tiers__r.numm__ThirdParty__r.ID_Datalake_Referent__c',
                     $this->conseillerIdArray
                 )
-                );
+            );
         }
 
         $q->setOrXCondition(
@@ -56,11 +53,13 @@ abstract class AbstractInvoiceBasedStatistic extends AbstractStatistic
             'numm__Piece__r.numm__Role_du_Tiers__r.numm__ThirdParty__r.ID_Datalake_Referent__c != null'
         );
 
+        /**
         $q->setCompareTextValueCondition(
             'numm__Piece__r.numm__Role_du_Tiers__r.numm__IdctrlAccounting__r.Name',
             '=',
             'CLI'
         );
+        */
         if ($this->hasPeriod) {
             $q->setDateCondition('numm__Piece__r.numm__BaselineDate__c', $this->start, '>=');
             $q->setDateCondition('numm__Piece__r.numm__BaselineDate__c', $this->end, '<=');
@@ -74,10 +73,10 @@ abstract class AbstractInvoiceBasedStatistic extends AbstractStatistic
             $q->setCompareTextValueCondition('numm__IdAccountingCode__r.Name', 'LIKE', '7%');
         }
 
-		$q->setCompareTextValueCondition('numm__Tech_Entite__r.Name', '=', 'BM EST');
+        $q->setCompareTextValueCondition('numm__Tech_Entite__r.Name', '=', 'BM EST');
 
         $q->orderBy(["numm__Piece__r.numm__Role_du_Tiers__c", "numm__IdAccountingCode__c"]);
-    
+
 
         return $this->client->fetch->sql($q->getQuery());
     }
@@ -94,14 +93,16 @@ abstract class AbstractInvoiceBasedStatistic extends AbstractStatistic
         }
     }
 
-    
-    public function parse () 
+
+    public function parse()
     {
         foreach($this->rawData as $invoice) {
             $conseillerId =
                 $invoice->numm__Piece__r->numm__Role_du_Tiers__r->numm__ThirdParty__r->ID_Datalake_Referent__c ?:
                 $invoice->numm__Piece__r->numm__Role_du_Tiers__r->numm__ThirdParty__r->IdDataLake__c;
-            if(!isset($this->parsedData[$conseillerId])) $this->parsedData[$conseillerId] = 0;
+            if(!isset($this->parsedData[$conseillerId])) {
+                $this->parsedData[$conseillerId] = 0;
+            }
             $this->parsedData[$conseillerId] += $invoice->numm__Tech_SensMontant__c == 'D' ? -$invoice->numm__Amount__c : $invoice->numm__Amount__c;
         }
     }
@@ -114,3 +115,4 @@ abstract class AbstractInvoiceBasedStatistic extends AbstractStatistic
         return $this->parsedData;
     }
 }
+

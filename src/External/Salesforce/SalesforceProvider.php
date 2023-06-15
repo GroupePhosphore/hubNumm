@@ -29,7 +29,6 @@ class SalesforceProvider
         $q->addField('Id_Datalake_Referent__c');
         $q->addField('Cat_gorie_de_tiers__c');
 
-        $q->setInArrayCondition('Cat_gorie_de_tiers__c', ['Conseiller', 'Conseiller Distributeur']);
         return $this->sql($q->getQuery());
     }
 
@@ -57,7 +56,6 @@ class SalesforceProvider
 
         $q->addField('(' . $sq . ')');
 
-        $q->setInArrayCondition('Cat_gorie_de_tiers__c', ['Conseiller', 'Conseiller Distributeur']);
         $q->setStringCondition("IdDataLake__c = '" . $id . "'");
 
         $q->setLimit(1, 0);
