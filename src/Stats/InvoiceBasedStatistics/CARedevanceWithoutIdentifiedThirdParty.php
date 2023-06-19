@@ -4,7 +4,6 @@ namespace App\Stats\InvoiceBasedStatistics;
 
 use App\Stats\InvoiceBasedStatistics\AbstractInvoiceBasedStatisticWithoutIdentifiedThirdParty;
 
-
 /**
  * @OA\Schema(
  *  schema="StatisticWithoutIDRedevance",
@@ -22,5 +21,6 @@ use App\Stats\InvoiceBasedStatistics\AbstractInvoiceBasedStatisticWithoutIdentif
 class CARedevanceWithoutIdentifiedThirdParty extends AbstractInvoiceBasedStatisticWithoutIdentifiedThirdParty
 {
     protected string $slug = 'CA_REDEVANCE';
-    protected array $accounts = [ 706009, 706010, 706014, 706015 ];
+    protected array $accounts = [ 706009, 706010, 706014, 706015, 706029 ];
 }
+
