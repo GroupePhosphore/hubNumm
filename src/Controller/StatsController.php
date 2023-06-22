@@ -367,6 +367,66 @@ class StatsController extends AbstractCustomController
     }
 
 
+    /**
+     * Returns a list of gross sales statistics by month for Kerry controls
+     *
+     * @param Request $request
+     * @param SalesforceClient $salesforceClient
+     * @return JsonResponse
+     * @OA\Post(
+     *  path="/api/stats/kerry/monthly_amount",
+     *  tags={"Statistiques"},
+     *  security={ "bearer" },
+     *  @OA\Parameter(
+     *      name="start",
+     *      in="query",
+     *      required=true,
+     *      description="Date de début des données au format YYYY-mm (le premier jour de la période est pris en compte)",
+     *      example="2023-02"
+     *  ),
+     *  @OA\Parameter(
+     *      name="end",
+     *      in="query",
+     *      required=true,
+     *      description="Date de fin des données au format YYYY-mm (le dernier jour de la période est pris en compte)",
+     *      example="2023-02"
+     *  ),
+     *  @OA\Response(
+     *      response="200",
+     *      description="Liste de CA triés par type et par conseillers",
+     *      @OA\JsonContent(
+     *          description="Réponse",
+     *                  @OA\Property(
+    *                       property="message",
+    *                      type="string",
+    *                      example="Success"
+    *                 ),
+    *               @OA\Property(
+    *                   property="data",
+     *                  type="object",
+     *                  allOf={
+     *
+     *                      @OA\Schema(ref="#/components/schemas/StatisticClientRivalis"),
+     *                      @OA\Schema(ref="#/components/schemas/StatisticCMCIC"),
+     *                      @OA\Schema(ref="#/components/schemas/StatisticComnat"),
+     *                      @OA\Schema(ref="#/components/schemas/StatisticLeasis"),
+     *                      @OA\Schema(ref="#/components/schemas/StatisticLicenceDirecte"),
+     *                      @OA\Schema(ref="#/components/schemas/StatisticProgrammeCroissance"),
+     *                      @OA\Schema(ref="#/components/schemas/StatisticRedevance"),
+     *                      @OA\Schema(ref="#/components/schemas/StatisticRenouvellement"),
+     *                      @OA\Schema(ref="#/components/schemas/StatisticRivacentrale"),
+     *                      @OA\Schema(ref="#/components/schemas/StatisticRivashop"),
+     *                      @OA\Schema(ref="#/components/schemas/StatisticTotalReseau"),
+     *                      @OA\Schema(ref="#/components/schemas/StatisticTotalTPE"),
+     *
+     *                  }
+     *              )
+     *          )
+     *      )
+     *  )
+     * )
+     *
+     */
     #[Route('/stats/kerry/monthly_amount', name: 'monthly_stats')]
     public function statsMonthlyCumulations(Request $request, SalesforceClient $salesforceClient): JsonResponse
     {
