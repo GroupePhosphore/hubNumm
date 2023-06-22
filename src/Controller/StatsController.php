@@ -365,4 +365,67 @@ class StatsController extends AbstractCustomController
             'data' => $formattedStats
         ]);
     }
+
+
+    #[Route('/stats/kerry/monthly_amount', name: 'monthly_stats')]
+    public function statsMonthlyCumulations(Request $request, SalesforceClient $salesforceClient): JsonResponse
+    {
+        $caTotal = new CATotalReseau($salesforceClient);
+        $caTotalTPE = new CATotalTpe($salesforceClient);
+        $caRivashop = new CARivashop($salesforceClient);
+        $caRenouvellement = new CARenouvellement($salesforceClient);
+        $caRedevance = new CARedevance($salesforceClient);
+        $caProgrammeCroissance = new CAProgrammeCroissance($salesforceClient);
+        $caLicenceDirecte = new CALicenceDirecte($salesforceClient);
+        $caComnat = new CAComnat($salesforceClient);
+        $caCmCic = new CACMCIC($salesforceClient);
+        $caClientRivalis = new CAClientRivalis($salesforceClient);
+        $caRivacentrale = new CARivacentrale($salesforceClient);
+
+        $start = $end = null;
+        if (!empty($request->query->get("start")) && !empty($request->query->get("end"))) {
+            $oneMonthDateInterval = new \DateInterval('P1M');
+
+            $start = new \DateTime($request->query->get("start"));
+            $end = new \DateTime($request->query->get("end"));
+            $end->modify('last day of this month 23:59:59.999999');
+
+            $caTotal->setPeriod($start, $end);
+            $caTotalTPE->setPeriod($start, $end);
+            $caRivashop->setPeriod($start, $end);
+            $caRenouvellement->setPeriod($start, $end);
+            $caProgrammeCroissance->setPeriod($start, $end);
+            $caLicenceDirecte->setPeriod($start, $end);
+            $caComnat->setPeriod($start, $end);
+            $caCmCic->setPeriod($start, $end);
+            $caClientRivalis->setPeriod($start, $end);
+            $caRivacentrale->setPeriod($start, $end);
+            // Les redevances doivent être prise en compte un mois plus tard
+            // Elles sont facturées et prises en compte
+            // un mois après la période d'activité
+            $startRedevance = new \DateTime($request->query->get("start"));
+            $endRedevance = new \DateTime($request->query->get("end"));
+            $startRedevance->add($oneMonthDateInterval);
+            $endRedevance->add($oneMonthDateInterval);
+            $endRedevance->modify('last day of this month 23:59:59.999999');
+            $caRedevance->setPeriod($startRedevance, $endRedevance);
+        }
+
+        $formattedStats[$caTotal->getSlug()] = $caTotal->getMonthlyCumulation();
+        $formattedStats[$caTotalTPE->getSlug()] = $caTotalTPE->getMonthlyCumulation();
+        $formattedStats[$caRivashop->getSlug()] = $caRivashop->getMonthlyCumulation();
+        $formattedStats[$caRenouvellement->getSlug()] = $caRenouvellement->getMonthlyCumulation();
+        $formattedStats[$caRedevance->getSlug()] = $caRedevance->getMonthlyCumulation();
+        $formattedStats[$caProgrammeCroissance->getSlug()] = $caProgrammeCroissance->getMonthlyCumulation();
+        $formattedStats[$caLicenceDirecte->getSlug()] = $caLicenceDirecte->getMonthlyCumulation();
+        $formattedStats[$caComnat->getSlug()] = $caComnat->getMonthlyCumulation();
+        $formattedStats[$caCmCic->getSlug()] = $caCmCic->getMonthlyCumulation();
+        $formattedStats[$caClientRivalis->getSlug()] = $caClientRivalis->getMonthlyCumulation();
+        $formattedStats[$caRivacentrale->getSlug()] = $caRivacentrale->getMonthlyCumulation();
+
+        return $this->json([
+            'message' => 'Success',
+            'data' => $formattedStats
+        ]);
+    }
 }
