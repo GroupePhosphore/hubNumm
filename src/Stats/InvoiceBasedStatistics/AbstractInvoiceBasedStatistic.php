@@ -97,6 +97,7 @@ abstract class AbstractInvoiceBasedStatistic extends AbstractStatistic
         $q->setCompareTextValueCondition('numm__Tech_Entite__r.Name', '=', 'BM EST');
         $q->setCompareTextValueCondition('numm__Flux__c', '=', 'Réel');
         $q->setCompareTextValueCondition('numm__IdAccountingCode__r.numm__TECH_Type__c', '=', 'Exploitation');
+        $q->setCompareTextValueCondition('numm__Piece__r.numm__IdJournal__r.Name', '=', 'Vente');
         $q->groupBy(["CALENDAR_YEAR(numm__Piece__r.numm__AccountingDate__c)", "CALENDAR_MONTH(numm__Piece__r.numm__AccountingDate__c)","numm__IdAccountingCode__r.numm__Description__c", "numm__IdAccountingCode__r.Name"]);
         return $this->client->fetch->sql($q->getQuery());
     }
