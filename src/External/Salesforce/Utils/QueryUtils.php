@@ -75,9 +75,9 @@ class QueryUtils
         $this->conditions[] = $condition;
     }
 
-    public function setOrXCondition($condition1, $condition2): void
+    public function setOrXCondition(array $conditions): void
     {
-        $this->conditions[] = '( ' . $condition1 . ' OR ' . $condition2 . ' )';
+        $this->conditions[] = '( ' . implode(' OR ', $conditions) . ' )';
     }
 
     public function setNullCondition(string $field): void

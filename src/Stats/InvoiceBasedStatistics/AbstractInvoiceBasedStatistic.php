@@ -31,9 +31,10 @@ abstract class AbstractInvoiceBasedStatistic extends AbstractStatistic
         $q->addField('numm__IdAccountingCode__r.Name');
         $q->addField('numm__Amount__c');
         $q->addField('numm__Tech_SensMontant__c');
+        $q->addField('numm__Piece__r.id_datalake_conseiller__c');
         $q->setTable('numm__VoucherTransaction__c');
         if ($this->conseillerIdArray && count($this->conseillerIdArray) > 1) {
-            $q->setOrXCondition(
+            $q->setOrXCondition([
                 $q->setInArrayCondition(
                     'numm__Piece__r.numm__Role_du_Tiers__r.numm__ThirdParty__r.IdDataLake__c',
                     $this->conseillerIdArray
@@ -42,12 +43,13 @@ abstract class AbstractInvoiceBasedStatistic extends AbstractStatistic
                     'numm__Piece__r.numm__Role_du_Tiers__r.numm__ThirdParty__r.ID_Datalake_Referent__c',
                     $this->conseillerIdArray
                 )
-            );
+            ]);
         }
-        $q->setOrXCondition(
+        $q->setOrXCondition([
             'numm__Piece__r.numm__Role_du_Tiers__r.numm__ThirdParty__r.IdDataLake__c != null',
-            'numm__Piece__r.numm__Role_du_Tiers__r.numm__ThirdParty__r.ID_Datalake_Referent__c != null'
-        );
+            'numm__Piece__r.numm__Role_du_Tiers__r.numm__ThirdParty__r.ID_Datalake_Referent__c != null',
+            'numm__Piece__r.id_datalake_conseiller__c != null'
+        ]);
         /**
         $q->setCompareTextValueCondition(
             'numm__Piece__r.numm__Role_du_Tiers__r.numm__IdctrlAccounting__r.Name',
@@ -129,9 +131,16 @@ abstract class AbstractInvoiceBasedStatistic extends AbstractStatistic
     public function parse()
     {
         foreach($this->rawData as $invoice) {
-            $conseillerId =
-                $invoice->numm__Piece__r->numm__Role_du_Tiers__r->numm__ThirdParty__r->ID_Datalake_Referent__c ?:
-                $invoice->numm__Piece__r->numm__Role_du_Tiers__r->numm__ThirdParty__r->IdDataLake__c;
+            $conseillerId = null;
+            // Ordre de priorité id_datalake_conseiller__c > ID_Datalake_Referent__c > IdDataLake__c
+            if ($invoice->numm__Piece__r->id_datalake_conseiller__c != null) {
+                $conseillerId =$invoice->numm__Piece__r->id_datalake_conseiller__c;
+            } elseif ($invoice->numm__Piece__r->numm__Role_du_Tiers__r->numm__ThirdParty__r->ID_Datalake_Referent__c != null) {
+                $conseillerId =$invoice->numm__Piece__r->numm__Role_du_Tiers__r->numm__ThirdParty__r->ID_Datalake_Referent__c;
+            } elseif ($invoice->numm__Piece__r->numm__Role_du_Tiers__r->numm__ThirdParty__r->IdDataLake__c != null) {
+                $conseillerId = $invoice->numm__Piece__r->numm__Role_du_Tiers__r->numm__ThirdParty__r->IdDataLake__c;
+            }
+
             if(!isset($this->parsedData[$conseillerId])) {
                 $this->parsedData[$conseillerId] = 0;
             }

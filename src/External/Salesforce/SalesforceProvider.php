@@ -109,7 +109,7 @@ class SalesforceProvider
         $q->setTable('numm__VoucherTransaction__c');
 
         if ($conseillerIdArray && count($conseillerIdArray) > 1) {
-            $q->setOrXCondition(
+            $q->setOrXCondition([
                 $q->setInArrayCondition(
                     'numm__Piece__r.numm__Role_du_Tiers__r.numm__ThirdParty__r.IdDataLake__c',
                     $conseillerIdArray
@@ -118,13 +118,13 @@ class SalesforceProvider
                     'numm__Piece__r.numm__Role_du_Tiers__r.numm__ThirdParty__r.ID_Datalake_Referent__c',
                     $conseillerIdArray
                 )
-            );
+            ]);
         }
 
-        $q->setOrXCondition(
+        $q->setOrXCondition([
             'numm__Piece__r.numm__Role_du_Tiers__r.numm__ThirdParty__r.IdDataLake__c != null',
             'numm__Piece__r.numm__Role_du_Tiers__r.numm__ThirdParty__r.ID_Datalake_Referent__c != null'
-        );
+        ]);
 
         $q->setCompareTextValueCondition(
             'numm__Piece__r.numm__Role_du_Tiers__r.numm__IdctrlAccounting__r.Name',
